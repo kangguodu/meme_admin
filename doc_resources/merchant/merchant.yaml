@@ -1,0 +1,2274 @@
+swagger: '2.0'
+info:
+  title: memecoins Merchant api
+  description: memecoins Merchant api 文档
+  termsOfService: ''
+  contact:
+    email: sales@techrare.com
+  version: 1.0.0
+host: 'localhost:8082'
+basePath: /memecoinsapi/public/api
+schemes:
+  - https
+consumes:
+  - application/x-www-form-urlencoded
+paths:
+  /common/sendsms:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - tools
+      summary: 发送短信验证码
+      description: 发送短信验证码
+      operationId: tools
+      parameters:
+        - name: phone
+          in: formData
+          description: 电话号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 电话区号
+          required: false
+          type: string
+          default: '886'
+      responses:
+        '200':
+          description: sms发送成功
+        '401':
+          description: sms发送失败
+  /upload:
+    post:
+      consumes:
+        - multipart/form-data
+      tags:
+        - tools
+      summary: 上传图片
+      description: 上传图片
+      operationId: upload
+      parameters:
+        - name: file
+          in: formData
+          description: 圖片
+          required: false
+          type: file
+        - name: dir
+          in: formData
+          description: 存放目錄
+          enum:
+            - avatar
+            - banner
+            - activity
+            - temp
+          default: temp
+          required: true
+          type: string
+      responses:
+        '200':
+          description: '圖片上傳成功,并返回图片路徑'
+        '400':
+          description: 沒有圖片上傳
+  /store/verify_account:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 驗證帳號 step 1
+      description: 驗證帳號 step 1
+      parameters:
+        - name: phone
+          in: formData
+          description: 电话号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 电话区号
+          required: false
+          type: string
+          default: '886'
+        - name: type
+          in: formData
+          description: '驗證類型,1: 手機 2: 信箱'
+          required: false
+          type: integer
+          default: 1
+      responses:
+        '200':
+          description: sms发送成功
+        '401':
+          description: sms发送失败
+  /store/check_code:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 驗證帳號 step 2(可選)
+      description: 驗證帳號 step2 驗證驗證碼
+      parameters:
+        - name: phone
+          in: formData
+          description: 手機號碼
+          required: true
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 驗證成功，返回 token
+        '400':
+          description: 驗證碼驗證失敗
+      security:
+        - Bearer: []
+  /store/init_password:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 驗證帳號 step 3
+      description: 驗證帳號 step3 設置新密碼
+      parameters:
+        - name: password
+          in: formData
+          description: 密碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 密碼設置成功
+        '401':
+          description: token不正確
+        '422':
+          description: 表單驗證失敗
+      security:
+        - Bearer: []
+  /store/login:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 店家用户登录
+      description: 店家用户登录
+      parameters:
+        - name: account
+          in: formData
+          description: 手机/邮箱
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: 密码
+          required: true
+          type: string
+        - name: type
+          in: formData
+          description: 登录类型
+          required: true
+          type: string
+          enum:
+            - phone
+            - email
+          default: phone
+      responses:
+        '200':
+          description: 用户登录成功
+        '400':
+          description: 登录失败
+        '422':
+          description: 表單驗證失敗
+  /store/current/profile:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 当前登录用户的个人资料
+      description: 当前登录用户的个人资料
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/simple_user_list:
+    get:
+      tags:
+        - user
+      summary: 獲取店鋪用戶列表(用於搜索)
+      description: 獲取店鋪用戶列表(用於搜索)
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/update_profile:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改個人資料
+      description: 修改個人資料
+      parameters:
+        - name: nickname
+          in: formData
+          description: 暱稱
+          required: false
+          type: string
+        - name: email
+          in: formData
+          description: 信箱
+          required: false
+          type: string
+        - name: gender
+          in: formData
+          description: 性別
+          required: false
+          type: string
+          enum:
+            - male
+            - female
+          default: male
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+        '422':
+          $ref: '#/definitions/UnprocessableEntity'
+      security:
+        - Bearer: []
+  /store/current/update_password:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改個人密碼
+      description: 修改個人密碼
+      parameters:
+        - name: old_password
+          in: formData
+          description: 舊密碼
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: 新密碼
+          required: true
+          type: string
+        - name: password_confirmation
+          in: formData
+          description: 重複新密碼
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+        '422':
+          $ref: '#/definitions/UnprocessableEntity'
+      security:
+        - Bearer: []
+  /store/resetPassword:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 忘记密码
+      description: 忘记密码
+      parameters:
+        - name: phone
+          in: formData
+          description: 手機號碼
+          required: true
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: 密码
+          required: true
+          type: string
+        - name: password_confirmation
+          in: formData
+          description: 确认密码
+          required: true
+          type: string
+        - name: type
+          in: formData
+          description: 1手機2郵箱
+          enum:
+            - 1
+            - 2
+          default: 1
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: 失敗
+      security:
+        - Bearer: []
+  /store/updatePhone:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改手机
+      description: 修改手机
+      parameters:
+        - name: phone
+          in: formData
+          description: 手機號碼
+          required: true
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: 失敗
+      security:
+        - Bearer: []
+  /store/current/user_list:
+    get:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 用戶列表(权限设定)
+      description: 权限设定页面的用戶列表
+      responses:
+        '200':
+          description: 請求成功
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+  /store/current/add_store_user:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 添加店铺用户
+      description: 添加店铺用户
+      parameters:
+        - name: mobile
+          in: formData
+          description: 手机
+          required: false
+          type: string
+        - name: nickname
+          in: formData
+          description: 姓名
+          required: false
+          type: string
+        - name: password
+          in: formData
+          description: 密码
+          required: false
+          type: string
+        - name: menus
+          in: formData
+          description: 权限
+          required: true
+          type: string
+          default: ''
+        - name: position
+          in: formData
+          description: 职位
+          required: true
+          type: string
+          default: ''
+        - name: code
+          in: formData
+          description: 验证码
+          required: true
+          type: string
+          default: ''
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/get_store_user:
+    get:
+      tags:
+        - user
+      summary: 获取单个店铺用户资料
+      description: 获取单个店铺用户资料
+      parameters:
+        - name: id
+          description: 用户id
+          type: integer
+          in: query
+          required: true
+          default: 0
+      responses:
+        '200':
+          description: 成功
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/update_store_user:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 更新店铺用户
+      description: 更新店铺用户
+      parameters:
+        - name: id
+          in: formData
+          description: 用戶id
+          required: true
+          type: string
+        - name: mobile
+          in: formData
+          description: 手机
+          required: false
+          type: string
+        - name: nickname
+          in: formData
+          description: 姓名
+          required: false
+          type: string
+        - name: password
+          in: formData
+          description: 密码
+          required: false
+          type: string
+        - name: menus
+          in: formData
+          description: 权限
+          required: true
+          type: string
+          default: ''
+        - name: position
+          in: formData
+          description: 职位
+          required: true
+          type: string
+          default: ''
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/remove_store_user:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 删除店铺用户
+      description: 删除店铺用户
+      parameters:
+        - name: id
+          in: formData
+          description: 用户编号
+          required: ture
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /sendsms:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 發送code
+      description: 發送code
+      parameters:
+        - name: phone
+          in: formData
+          description: 手機、郵箱
+          required: true
+          type: string
+        - name: type
+          in: formData
+          description: 1手機2郵箱
+          enum:
+            - 1
+            - 2
+          default: 1
+          required: true
+          type: integer
+        - name: flag
+          in: formData
+          description: 標識，在需驗證賬號是否存在時設置
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: 失敗
+      security:
+        - Bearer: []
+  /store/updateEmail:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改郵箱
+      description: 修改郵箱
+      parameters:
+        - name: email
+          in: formData
+          description: 郵箱
+          required: true
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: 失敗
+      security:
+        - Bearer: []
+  /store/current/update_permission:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 更新用户权限
+      description: 更新用户权限
+      parameters:
+        - name: user_id
+          in: formData
+          description: 用户id
+          required: true
+          type: string
+        - name: permission
+          in: formData
+          description: 权限
+          required: true
+          type: string
+          enum:
+            - ALL
+            - ONLYSEE
+            - NONE
+          default: NONE
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/info:
+    get:
+      tags:
+        - store
+      summary: 獲取店家基本资料设定
+      description: 獲取店家基本资料设定
+      responses:
+        '200':
+          description: 店家基本资料
+          schema:
+            $ref: '#/definitions/StoreInfo'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/store_simple_info:
+    get:
+      tags:
+        - store
+      summary: 獲取店家基本資料
+      description: '店家基本资料设定,用於帳號資訊中顯示的店家資料'
+      responses:
+        '200':
+          description: 獲取店家基本資料
+          schema:
+            $ref: '#/definitions/StoreSimpleInfo'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/update_store:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - store
+      summary: 更新店鋪信息
+      description: 更新店鋪信息
+      parameters:
+        - name: avg_cost_status
+          in: formData
+          description: '平均消費: 0 關閉 1:開啓'
+          required: true
+          type: string
+          default: 0
+        - name: avg_cost_low
+          in: formData
+          description: 最低消費
+          required: false
+          type: string
+          default: 0
+        - name: avg_cost_high
+          in: formData
+          description: 最高消費
+          required: false
+          type: string
+          default: 0
+        - name: facebook
+          in: formData
+          description: facebook
+          required: false
+          type: string
+          default: ''
+        - name: instagram
+          in: formData
+          description: instagram
+          required: false
+          type: string
+          default: ''
+        - name: google_keyword
+          in: formData
+          description: google_keyword
+          required: false
+          type: string
+          default: ''
+        - name: email
+          in: formData
+          description: email
+          required: false
+          type: string
+          default: ''
+        - name: service
+          in: formData
+          description: 提供的服务
+          required: false
+          type: string
+          default: ''
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/get_open_hours:
+    get:
+      tags:
+        - store
+      summary: 获取营业时间
+      description: 获取营业时间
+      responses:
+        '200':
+          description: 营业时间列表
+          schema:
+            $ref: '#/definitions/StoreOpenHoursList'
+      security:
+        - Bearer: []
+  /store/current/update_open_hours:
+    post:
+      consumes:
+        - application/json
+      tags:
+        - store
+      summary: 保存营业时间
+      description: 保存营业时间
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/StoreOpenHoursData'
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/get_banner_list:
+    get:
+      tags:
+        - store
+      summary: 获取店家首页图片列表
+      description: 获取店家首页图片列表
+      parameters: null
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/add_banner_list:
+    post:
+      consumes:
+        - application/json
+      tags:
+        - store
+      summary: 更新首页滚动图片
+      description: 更新首页滚动图片
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/StoreBannerData'
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/get_download_list:
+    get:
+      tags:
+        - store
+      summary: 获取店家下载专区列表
+      description: 获取店家下载专区列表
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/get_download_detail:
+    get:
+      tags:
+        - store
+      summary: 获取店家下载详情
+      description: 获取店家下载详情
+      parameters:
+        - name: id
+          in: query
+          description: id
+          required: ture
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/bank_list:
+    get:
+      tags:
+        - store
+      summary: 获取店家银行卡列表
+      description: 获取店家银行卡列表
+      responses:
+        '200':
+          description: 请求成功
+          schema:
+            $ref: '#/definitions/BankList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/bank_count:
+    get:
+      tags:
+        - store
+      summary: 获取店家银行卡数量
+      description: 获取店家银行卡数量
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/add_bank:
+    post:
+      consumes:
+        - application/json
+      tags:
+        - store
+      summary: 添加银行卡
+      description: 添加银行卡
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/StoreBankAdd'
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/delete_bank:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - store
+      summary: 删除银行卡
+      description: 删除银行卡
+      parameters:
+        - name: id
+          in: formData
+          description: 银行卡记录id
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/withdrawl_list:
+    get:
+      tags:
+        - store
+      summary: 获取店家请款列表
+      description: 获取店家请款列表
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/withdrawl_count:
+    get:
+      tags:
+        - store
+      summary: 获取店家请款进行中数量
+      description: 获取店家请款进行中数量
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/add_withdrawl:
+    post:
+      consumes:
+        - application/json
+      tags:
+        - store
+      summary: 添加请款记录
+      description: 添加请款记录
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/AddWithDrawlData'
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/cancel_withdrawl:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - store
+      summary: 取消请款记录
+      description: 取消请款记录
+      parameters:
+        - name: id
+          in: formData
+          description: 请款记录id
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/current/inviteNum:
+    get:
+      tags:
+        - store
+      summary: 邀請數
+      description: 邀請數
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+      security:
+        - Bearer: []
+  /store/current/logo:
+    get:
+      tags:
+        - store
+      summary: 獲取店家logo
+      description: 獲取店家logo
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+      security:
+        - Bearer: []
+  /store/current/update_logo:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - store
+      summary: 更新店鋪logo
+      description: 更新店鋪logo
+      parameters:
+        - name: logo
+          in: formData
+          description: 上傳的圖片名稱
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/account/balance:
+    get:
+      tags:
+        - store
+      summary: 店家積分額度
+      description: 店家積分額度
+      responses:
+        '200':
+          description: 店家積分額度
+          schema:
+            $ref: '#/definitions/StoreAmount'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/account/income:
+    get:
+      tags:
+        - store
+      summary: 店家请款营业收入
+      description: 店家请款营业收入
+      responses:
+        '200':
+          description: 店家请款营业收入
+          schema:
+            $ref: '#/definitions/StoreInComeAmount'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/account/recharge_history:
+    get:
+      tags:
+        - store
+      summary: 店家充值記錄
+      description: 店家充值記錄
+      parameters:
+        - name: per_page
+          description: 每页显示的条数
+          type: integer
+          in: query
+          default: 10
+      responses:
+        '200':
+          description: 店家充值記錄
+          schema:
+            $ref: '#/definitions/StoreAmountBills'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/account/change_probability:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - store
+      summary: 修改撥數
+      description: 修改撥數
+      parameters:
+        - name: probability
+          in: formData
+          description: 單筆消費回贈%數
+          required: false
+          type: string
+        - name: fixed_probability
+          in: formData
+          description: 單筆消費固定回贈%數
+          required: false
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/account/bills:
+    get:
+      tags:
+        - store
+      summary: 获取店家账户记录
+      description: 获取店家账户记录
+      parameters:
+        - name: per_page
+          description: 每页显示的条数
+          type: integer
+          in: query
+          default: 10
+        - name: category
+          description: |
+            賬務分類
+
+            | 值 | 說明 |
+            | ------ | ------ |
+            | 0 | 全部 |
+            | 2 | 營業收入 |
+            | 3 | 積分額度 |
+            | 4 | 積分收入 | 
+          type: integer
+          in: query
+          default: 0
+          enum:
+            - 0
+            - 2
+            - 3
+            - 4
+      responses:
+        '200':
+          description: 获取店家账户记录
+          schema:
+            $ref: '#/definitions/StoreAmountLists'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/order/list:
+    get:
+      tags:
+        - order
+      summary: 獲取結帳列表
+      description: 獲取結帳列表
+      parameters:
+        - name: per_page
+          description: 每页显示的条数
+          type: integer
+          in: query
+          default: 10
+      responses:
+        '200':
+          description: 結帳列表
+          schema:
+            $ref: '#/definitions/OrderList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/order/process:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - order
+      summary: 处理订单
+      description: 处理订单
+      parameters:
+        - name: order_id
+          in: formData
+          description: 订单编号
+          required: true
+          type: string
+        - name: status
+          in: formData
+          description: '订单状态,-1:取消;1:已处理'
+          required: false
+          type: string
+          enum:
+            - '-1'
+            - '1'
+          default: 1
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/order/history_list:
+    get:
+      tags:
+        - order
+      summary: 结账记录
+      description: 结账记录
+      parameters:
+        - name: start_date
+          in: query
+          description: 开始日期
+          required: false
+          type: string
+        - name: end_date
+          in: query
+          description: 结束日期
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: '状态 0:全部 1: 完成 2:退货'
+          required: false
+          type: string
+          default: 0
+        - name: checkout_by
+          in: query
+          description: 结账人员
+          required: false
+          type: string
+        - name: refund_by
+          in: query
+          description: 退货人员
+          required: false
+          type: string
+        - name: per_page
+          in: query
+          description: 每页显示的条数
+          required: false
+          type: string
+          default: 10
+      responses:
+        '200':
+          description: 结账记录
+          schema:
+            $ref: '#/definitions/OrderHistoryList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/order/comments:
+    get:
+      tags:
+        - order
+      summary: 顧客評論
+      description: 顧客評論
+      parameters:
+        - name: level
+          in: query
+          description: |
+
+            篩選
+
+            | 值 | 說明 |
+            | ------ | ------ |
+            | 0 | 所有 |
+            | 1 | 滿意 |
+            | 2 | 普通 |
+            | 3 | 不滿意 |
+          required: false
+          type: string
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+          default: 0
+        - name: per_page
+          in: query
+          description: 每页显示的条数
+          required: false
+          type: string
+          default: 10
+      responses:
+        '200':
+          description: 請求成功
+          schema:
+            $ref: '#/definitions/CommentList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/order/reply_comment:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - order
+      summary: 回覆顧客評論
+      description: 回覆顧客評論
+      parameters:
+        - name: id
+          in: formData
+          description: 評論id
+          required: true
+          type: string
+          default: 0
+        - name: reply_content
+          in: formData
+          description: 回覆內容
+          required: true
+          type: string
+          default: 我是顧客評論回覆內容
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '400':
+          description: 回覆顧客評論失敗
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/other/simple_activity:
+    get:
+      tags:
+        - other
+      summary: 獲取簡單消息列表
+      description: '獲取簡單消息列表,未读消息数量从返回消息meta中的unread'
+      responses:
+        '200':
+          description: 消息列表
+          schema:
+            $ref: '#/definitions/ActivityList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/other/activity_list:
+    get:
+      tags:
+        - other
+      summary: 獲取消息列表
+      description: '獲取消息列表,未读消息数量从返回消息meta中的unread'
+      parameters:
+        - name: per_page
+          description: 每页显示的条数
+          type: integer
+          in: query
+          default: 10
+      responses:
+        '200':
+          description: 消息列表
+          schema:
+            $ref: '#/definitions/ActivityList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/other/activity_detail:
+    get:
+      tags:
+        - other
+      summary: 獲取消息詳情
+      description: 獲取消息詳情
+      parameters:
+        - name: id
+          description: 消息id
+          type: integer
+          in: query
+          default: 0
+      responses:
+        '200':
+          description: 獲取消息詳情
+          schema:
+            $ref: '#/definitions/ActivityDetail'
+        '400':
+          $ref: '#/definitions/NotFound'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/test/store_msg:
+    get:
+      tags:
+        - other
+      summary: 测试下订单推送
+      description: 测试下订单推送
+      responses:
+        '200':
+          description: 消息列表
+  /store/test/store_order_msg:
+    get:
+      tags:
+        - other
+      summary: 测试下订单mqtt推送
+      description: 测试下订单mqtt推送
+      responses:
+        '200':
+          description: 消息列表
+  /store/other/token_check:
+    get:
+      tags:
+        - other
+      summary: token驗證
+      description: token驗證
+      operationId: token_check
+      responses:
+        '200':
+          description: 成功
+        '401':
+          description: 失败
+      security:
+        - Bearer: []
+  /store/sign_apply/form:
+    get:
+      tags:
+        - other
+      summary: 获取其它项目申请表单的立牌項目
+      description: 获取其它项目申请表单立牌項目
+      responses:
+        '200':
+          description: 返回立牌項目
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/sign_apply/create:
+    post:
+      consumes:
+        - application/json
+      tags:
+        - other
+      summary: 提交其它项目申请表单
+      description: 提交其它项目申请表单
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/ApplyInfo'
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/sign_apply/count:
+    get:
+      tags:
+        - other
+      summary: 获取其它项目申请表单當前處理數量
+      description: 获取其它项目申请表单當前處理數量
+      responses:
+        '200':
+          description: 返回處理數量
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/sign_apply:
+    get:
+      tags:
+        - other
+      summary: 获取單個其它项目申请表单詳情
+      description: 获取單個其它项目申请表单詳情
+      parameters:
+        - name: id
+          description: 申請id
+          type: integer
+          in: query
+          default: 0
+      responses:
+        '200':
+          description: 消息列表
+          schema:
+            $ref: '#/definitions/ApplyList'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /rebate/sync/orders:
+    get:
+      tags:
+        - sync
+      summary: 获取订单列表
+      description: 获取订单列表
+      parameters:
+        - name: date
+          in: query
+          description: 日期
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 获取订单列表
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+  /rebate/sync/order:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - sync
+      summary: 更新返利信息
+      description: 更新返利信息
+      parameters:
+        - name: order_id
+          in: formData
+          description: 订单id
+          required: true
+          type: string
+          default: 0
+        - name: cycle_status
+          in: formData
+          description: 返利状态
+          required: true
+          type: string
+          default: 2
+        - name: cycle_days_remain
+          in: formData
+          description: 返利天数剩余
+          required: true
+          type: string
+        - name: interest_ever
+          in: formData
+          description: 每天返利积分
+          required: true
+          type: string
+        - name: interest_remain
+          in: formData
+          description: 返利剩余积分
+          required: true
+          type: string
+        - name: current_rebate
+          in: formData
+          description: 当前返利积分
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+  /store/recharge/create_test:
+    get:
+      tags:
+        - recharge
+      summary: 充值創建訂單(測試)
+      description: 充值創建訂單(測試)
+      responses:
+        '200':
+          description: 消息列表
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/recharge/transferes:
+    get:
+      tags:
+        - recharge
+      summary: 儲值申請列表
+      description: 儲值申請列表
+      responses:
+        '200':
+          description: 儲值申請列表
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+  /store/recharge/create_transfer:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - recharge
+      summary: 提交儲值申請
+      description: 提交儲值申請
+      parameters:
+        - name: transfer_date
+          in: formData
+          description: 轉賬日期
+          required: false
+          type: string
+        - name: accounts_no
+          in: formData
+          description: 帳號末五位
+          required: true
+          type: string
+        - name: amount
+          in: formData
+          description: 匯款金額
+          required: true
+          type: string
+        - name: attachment
+          in: formData
+          description: 匯款憑證
+          required: true
+          type: string
+      responses:
+        '200':
+          $ref: '#/definitions/http_success'
+        '401':
+          $ref: '#/definitions/http_unauthorized'
+      security:
+        - Bearer: []
+definitions:
+  http_success:
+    description: 请求成功
+  http_unauthorized:
+    description: 没有登录或者登录的token过期
+  NotFound:
+    description: The specified resource was not found
+  Unauthorized:
+    description: 没有登录或者登录的token过期
+  UnprocessableEntity:
+    description: 提交的数据未通过验证
+  response_format:
+    properties:
+      success:
+        type: boolean
+        description: '请求的状态,true:成功 false:失败'
+        example: true
+      error_code:
+        type: integer
+        format: int32
+        description: '返回的错误码,0: 成功,大于0: 失败'
+        example: '0'
+      error_msg:
+        type: string
+        description: 错误信息，当非请求成功，error_msg将显示对应的错误信息
+        example: ''
+      data:
+        type: string
+        description: 请求成功返回的响应资料
+        example: '[]'
+  StoreAmount:
+    properties:
+      return_credits:
+        description: 回贈積分額度
+        type: string
+        example: 10000
+      probability:
+        description: 單筆消費提發%數
+        type: string
+        example: 10
+      feature_probability:
+        description: 單筆消費提發%數修改值
+        type: integer
+        example: 10
+      feature_probability_time:
+        description: 單筆消費提發%數修改生效時間，0未變更
+        type: integer
+        example: 0
+      fixed_probability:
+        description: 固定單筆消費提發%數
+        type: string
+        example: 10
+      feature_fixed_probability:
+        description: 修改固定單筆消費提發%數
+        type: string
+        example: 10
+      feature_fixed_probability_time:
+        description: 固定單筆消費提發%數生效時間，0未變更
+        type: string
+        example: 0
+  StoreInComeAmount:
+    properties:
+      business_income:
+        description: 营业收入
+        type: string
+        example: 10000
+      credits_income:
+        description: 积分收入
+        type: string
+        example: 10
+      bank_count:
+        description: 银行卡数量
+        type: integer
+        example: 0
+      withdrawl_count:
+        description: 请求中的请款数量
+        type: integer
+        example: 0
+  StoreAmountBills:
+    properties:
+      id:
+        description: 交易ID
+        type: integer
+      trans_type:
+        description: 交易類型(1 收入 2 支出)
+        type: string
+      trans_category:
+        description: 分類
+        type: string
+      trans_category_name:
+        description: 分類名稱
+        type: string
+      trans_description:
+        description: 交易描述
+        type: string
+      trans_datetime:
+        description: 交易時間
+        type: integer
+      amount:
+        description: 金額
+        type: integer
+  StoreAmountLists:
+    properties:
+      id:
+        description: 交易ID
+        type: integer
+      trans_type:
+        description: 交易類型(1 收入 2 支出)
+        type: string
+      trans_category:
+        description: 分類
+        type: string
+      trans_category_name:
+        description: 分類名稱
+        type: string
+      trans_description:
+        description: 交易描述
+        type: string
+      trans_date:
+        description: 交易日期
+        type: integer
+      trans_datetime:
+        description: 交易時間
+        type: integer
+      amount:
+        description: 金額
+        type: integer
+      balance:
+        description: 異動前金額
+        type: integer
+      created_at:
+        description: 創建時間
+        type: string
+      created_by:
+        description: 創建人
+        type: string
+      created_name:
+        description: 創建人
+        type: string
+  BankList:
+    properties:
+      id:
+        description: id
+        type: integer
+      bank_name:
+        description: 银行名称
+        type: string
+      receiver_name:
+        description: 收款人姓名
+        type: string
+      bank_account:
+        description: 银行帐号
+        type: string
+      bank_phone:
+        description: 电话
+        type: string
+      created_at:
+        description: 添加时间
+        type: integer
+  StoreBankAdd:
+    properties:
+      bank_name:
+        description: 银行名称
+        type: string
+      receiver_name:
+        description: 收款人姓名
+        type: string
+      bank_account:
+        description: 银行帐号
+        type: string
+      bank_phone:
+        description: 电话
+        type: string
+  AddWithDrawlData:
+    properties:
+      amount:
+        description: 金额
+        type: string
+      bank_id:
+        description: 请款银行卡ID
+        type: string
+  OrderList:
+    properties:
+      id:
+        description: 訂單id
+        type: string
+        example: 1
+      order_no:
+        description: 訂單編號
+        type: string
+        example: A110
+      date:
+        description: 訂單日期
+        type: string
+        example: '2018-06-28'
+      member_id:
+        description: 會員編號
+        type: integer
+        example: 1
+      amount:
+        description: 消費金額
+        type: string
+        example: '500'
+      credits:
+        description: 積分抵折金額
+        type: string
+        example: '0'
+      coupons_money:
+        description: 優惠券抵折金額
+        type: string
+        example: '0'
+      status:
+        description: 狀態 0未處理 -1 已取消 1 已處理
+        type: integer
+        example: 0
+      nickname:
+        description: 会员昵称
+        type: string
+        example: 小明
+      username:
+        description: 会员用户名
+        type: string
+        example: 小明
+      created_at:
+        description: 下單時間
+        type: string
+        example: '2018-06-28 12:00:00'
+  OrderHistoryList:
+    properties:
+      id:
+        description: 訂單id
+        type: string
+        example: 1
+      order_no:
+        description: 訂單編號
+        type: string
+        example: A110
+      amount:
+        description: 消費金額
+        type: string
+        example: '500'
+      credits:
+        description: 積分抵折金額
+        type: string
+        example: '0'
+      coupons_money:
+        description: 優惠券抵折金額
+        type: string
+        example: '0'
+      status:
+        description: 狀態 0未處理 -1 已取消 1 已處理
+        type: integer
+        example: 0
+      status_text:
+        description: 狀態文本
+        type: string
+        example: 未处理
+      updated_at:
+        description: 操作時間
+        type: string
+        example: '2018-06-28 12:00:00'
+      name:
+        description: 操作人员
+        type: string
+        example: 小禾
+      member_username:
+        description: 会员用户名
+        type: string
+        example: 小禾
+      member_nickname:
+        description: 会员昵称
+        type: string
+        example: 小禾
+  CommentList:
+    properties:
+      id:
+        description: 評論ID
+        type: string
+        example: 1
+      content:
+        description: 評論內容
+        type: string
+        example: ''
+      level:
+        description: 評論等級
+        type: string
+        example: 1
+      level_text:
+        description: 評價等級文本
+        type: string
+        example: 滿意
+      is_reply:
+        description: '是否回覆 0:未回覆 1已回覆'
+        type: string
+        example: '0'
+      reply_content:
+        description: 回覆內容
+        type: string
+        example: ''
+      created_at:
+        description: 評論時間
+        type: string
+        example: '2018-06-28 10:00:00'
+      updated_at:
+        description: 回覆時間
+        type: string
+        example: '2018-06-28 12:00:00'
+  User:
+    properties:
+      id:
+        description: 會員id
+        type: string
+        example: 1
+      nickname:
+        description: 暱稱
+        type: string
+        example: 小明
+      mobile:
+        description: 手機號碼
+        type: string
+        example: '110'
+      email:
+        description: 信箱
+        type: string
+        example: test@example.com
+      emailStatus:
+        description: 信箱驗證狀態
+        type: string
+        example: unverified
+      permission:
+        description: 權限
+        type: string
+        example: ALL
+      superAccount:
+        description: 老闆標識
+        type: integer
+        example: 1
+      gender:
+        description: 性別
+        type: string
+        example: male
+  StoreInfo:
+    properties:
+      id:
+        description: 店鋪id
+        type: integer
+      name:
+        description: 店鋪名稱
+        type: string
+      branchname:
+        description: 店鋪分支名稱
+        type: string
+      city:
+        description: 城市
+        type: string
+      district:
+        description: 縣
+        type: string
+      address:
+        description: 詳細地址
+        type: string
+      phone:
+        description: 電話
+        type: string
+      email:
+        description: 信箱
+        type: string
+      company_name:
+        description: 公司名稱
+        type: string
+      company_tax_no:
+        description: 統一編號
+        type: string
+      type_name:
+        description: 營業業態
+        type: string
+      avg_cost_status:
+        description: 平均消費狀態
+        type: string
+      avg_cost_low:
+        description: 最低消費
+        type: string
+      avg_cost_high:
+        description: 最高消費
+        type: string
+      facebook:
+        description: facebook
+        type: string
+      instagram:
+        description: instagram
+        type: string
+      google_keyword:
+        description: google_keyword
+        type: string
+      service:
+        description: 提供的服務
+        type: string
+  StoreSimpleInfo:
+    properties:
+      id:
+        description: 店鋪id
+        type: integer
+      name:
+        description: 店鋪名稱
+        type: string
+      branchname:
+        description: 店鋪分支名稱
+        type: string
+      phone:
+        description: 電話
+        type: string
+      email:
+        description: 信箱
+        type: string
+      nickname:
+        description: 店主名稱
+        type: string
+      gender:
+        description: 性別
+        type: string
+      service:
+        description: 提供的服務
+        type: string
+  StoreBannerData:
+    properties:
+      banners:
+        type: array
+        description: 滚动图片
+        items:
+          properties:
+            id:
+              description: id(非必填)
+              type: integer
+            image:
+              description: 图片
+              type: string
+  StoreOpenHoursList:
+    properties:
+      routine_holiday:
+        description: 特例休假日 0不开启
+        type: integer
+        example: 0
+      special_holiday:
+        description: 特别休假日 空不开启
+        type: string
+        example: ''
+      special_business_day:
+        description: 特别营业日 空不开启
+        type: string
+        example: ''
+      remark:
+        description: 备注
+        type: string
+        example: ''
+      open_hours:
+        description: 营业时间
+        type: array
+        items:
+          properties:
+            id:
+              type: integer
+              description: 记录id
+            day_of_week:
+              type: integer
+              description: 星期几
+            time:
+              description: 时间段
+              type: array
+              items:
+                properties:
+                  open_time:
+                    type: integer
+                    format: int32
+                    description: 开始时间
+                  close_time:
+                    type: string
+                    description: 结束时间
+        example:
+          - id: 1
+            day_of_week: 1
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 2
+            day_of_week: 2
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 3
+            day_of_week: 3
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 4
+            day_of_week: 4
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 5
+            day_of_week: 5
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 6
+            day_of_week: 6
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 7
+            day_of_week: 7
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+  StoreOpenHoursData:
+    properties:
+      routine_holiday:
+        description: 特例休假日
+        type: integer
+        example: 0
+      special_holiday:
+        description: 特别休假日
+        type: string
+        example: ''
+      special_business_day:
+        description: 特别营业日
+        type: string
+        example: ''
+      remark:
+        description: 备注
+        type: string
+        example: ''
+      open_hours:
+        description: 营业时间
+        type: array
+        items:
+          properties:
+            id:
+              type: integer
+              description: 记录id
+            day_of_week:
+              type: string
+              description: 星期几
+            time:
+              description: 时间段
+              type: array
+              items:
+                properties:
+                  open_time:
+                    type: integer
+                    format: int32
+                    description: 开始时间
+                  close_time:
+                    type: string
+                    description: 结束时间
+        example:
+          - id: 1
+            day_of_week: 1
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 2
+            day_of_week: 2
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 3
+            day_of_week: 3
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 4
+            day_of_week: 4
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 5
+            day_of_week: 5
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 6
+            day_of_week: 6
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+          - id: 7
+            day_of_week: 7
+            time:
+              - open_time: '09:00:00'
+                close_time: '21:00:00'
+  ActivityList:
+    properties:
+      id:
+        description: id
+        type: string
+        example: 1
+      title:
+        description: 標題
+        type: string
+        example: 標題
+      description:
+        description: 描述
+        type: integer
+        example: 1
+      type:
+        description: '消息類型 1:文章 2:活動'
+        type: string
+        example: 1
+      created_at:
+        description: 發佈時間
+        type: string
+        example: '2018-01-01 00:00:00'
+      read_status:
+        description: 閱讀狀態
+        type: string
+        example: 'false'
+  ActivityDetail:
+    properties:
+      id:
+        description: id
+        type: string
+        example: 1
+      title:
+        description: 標題
+        type: string
+        example: 標題
+      content:
+        description: 內容
+        type: integer
+        example: 1
+      type:
+        description: '消息類型 1:文章 2:活動'
+        type: string
+        example: 1
+      created_at:
+        description: 發佈時間
+        type: string
+        example: '2018-01-01 00:00:00'
+  ApplyList:
+    properties:
+      id:
+        description: id
+        type: string
+        example: 1
+      paster_count:
+        description: 贴纸
+        type: string
+        example: 0
+      dm:
+        description: dm
+        type: integer
+        example: 0
+      one_type_card:
+        description: 人型立牌
+        type: string
+        example: 0
+      other_remark:
+        description: 其它項目
+        type: string
+        example: ''
+      created_at:
+        description: 申請時間
+        type: string
+        example: '2018-01-01 00:00:00'
+      status:
+        description: 狀態
+        type: string
+        example: 1
+      status_text:
+        description: 狀態文本
+        type: string
+        example: 1
+      cancel_reason:
+        description: 取消原因
+        type: string
+        example: 待處理
+  ApplyInfo:
+    properties:
+      id:
+        description: id
+        type: integer
+      items:
+        description: 申请项目
+        type: array
+        items:
+          properties:
+            id:
+              description: 立牌id
+              type: integer
+            quantity:
+              description: 數量
+              type: string
+        example:
+          - id: 1
+            quantity: 0
+          - id: 2
+            quantity: 2
+          - id: 3
+            quantity: 0
+      other_remark:
+        description: 其它項目
+        type: string
+        example: ''
+      address:
+        description: 寄送地址
+        type: string
+        example: ''
+      imagesign_carriage:
+        description: 寄送运费
+        type: string
+        example: 0
+tags:
+  - name: tools
+    description: 工具
+  - name: user
+    description: 用户
+  - name: store
+    description: 店家
+  - name: order
+    description: 結帳
+  - name: other
+    description: 其它
+  - name: sync
+    description: 同步订单
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header

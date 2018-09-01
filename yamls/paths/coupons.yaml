@@ -1,0 +1,236 @@
+/coupons/index:
+  get:
+    tags:
+      - coupons
+    summary: 我的優惠券
+    description: 我的優惠券
+    parameters:
+      - name: store_id
+        in: query
+        description: 店鋪id
+        required: false
+        type: integer
+      - name: money
+        in: query
+        description: 消費金額
+        required: false
+        type: string
+      - name: use_type
+        in: query
+        description: 1立即2下單3禮物
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功，status:1可使用，0未到時間，2不屬於當前店鋪
+    security:
+      - Bearer: []
+
+
+/coupons/receive:
+  get:
+    tags:
+      - coupons
+    summary: 領取優惠券
+    description: 領取優惠券
+    parameters:
+      - name: id
+        in: query
+        description: 優惠券id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/coupons/reg/receive:
+  get:
+    tags:
+      - coupons
+    summary: 註冊后領取優惠券
+    description: 註冊后領取優惠券
+    parameters:
+      - name: id
+        in: query
+        description: 優惠券id
+        required: true
+        type: integer
+      - name: member_id
+        in: query
+        description: 會員id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/coupons/share/receive:
+  get:
+    tags:
+      - coupons
+    summary: 分享后領取優惠券
+    description: 分享后領取優惠券
+    parameters:
+      - name: id
+        in: query
+        description: 優惠券id
+        required: true
+        type: integer
+      - name: code
+        in: query
+        description: 綁定的邀請碼
+        required: true
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/coupons/release:
+  post:
+    consumes:
+      - multipart/form-data
+    tags:
+      - coupons
+    summary: 發行優惠券
+    description: 發行優惠券
+    operationId: coupons_release
+    parameters:
+      - name: title
+        in: formData
+        description: 優惠券主題
+        required: true
+        type: string
+      - name: description
+        in: formData
+        description: 描述
+        required: false
+        type: string
+      - name: store_id
+        in: formData
+        description: 店鋪id
+        required: false
+        type: integer
+      - name: activity_id
+        in: formData
+        description: 活動id
+        required: false
+        type: integer
+      - name: money
+        in: formData
+        description: 金額
+        required: false
+        type: integer
+      - name: discount
+        in: formData
+        description: 折數
+        required: false
+        type: integer
+      - name: use_type
+        in: formData
+        description: 類型，1蜂幣2券3禮物
+        enum: [1,2,3]
+        default: 2
+        required: true
+        type: integer
+      - name: valid_time
+        in: formData
+        description: 有效時間,天數，1為1天
+        default: 7
+        required: true
+        type: integer
+      - name: conditions
+        in: formData
+        description: 滿減條件
+        required: true
+        type: integer
+      - name: type
+        in: formData
+        description: 類型，1通用2專用
+        enum: [1,2]
+        default: 1
+        required: true
+        type: integer
+      - name: number
+        in: formData
+        description: 發行數量
+        default: 5000
+        required: true
+        type: integer
+      - name: limit_number
+        in: formData
+        description: 限制使用數量
+        default: 3
+        required: true
+        type: integer
+      - name: limit_receive
+        in: formData
+        description: 每人限制領取數量
+        default: 1
+        required: true
+        type: integer
+      - name: limit_receive_days
+        in: formData
+        description: 每人每天限制領取數量
+        default: 1
+        required: true
+        type: integer
+      - name: start_at
+        in: formData
+        description: 優惠券活動開始時間,'2018-08-13'
+        required: false
+        type: string
+      - name: expire_at
+        in: formData
+        description: 優惠券活動截止時間,'2018-09-30'
+        required: false
+        type: string
+      - name: release_type
+        in: formData
+        description: 發行方1平台2店鋪
+        required: false
+        type: integer
+    responses:
+      '200':
+        description: 成功
+
+/coupons/check:
+  get:
+    tags:
+      - coupons
+    summary: 優惠券活動檢測
+    description: 優惠券活動檢測
+    parameters:
+      - name: code
+        in: query
+        description: 自己的邀請碼
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/receive:
+  get:
+    tags:
+      - coupons
+    summary: 點擊領取優惠券或者蜂幣
+    description: 點擊領取優惠券或者蜂幣
+    parameters:
+      - name: code
+        in: query
+        description: 自己的邀請碼
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

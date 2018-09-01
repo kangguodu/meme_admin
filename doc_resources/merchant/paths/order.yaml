@@ -1,0 +1,165 @@
+/store/order/list:
+  get:
+    tags:
+      - order
+    summary: 獲取結帳列表
+    description: 獲取結帳列表
+    parameters:
+      - name: per_page
+        description: 每页显示的条数
+        type: integer
+        in: query
+        default: 10
+    responses:
+      '200':
+        description: 結帳列表
+        schema:
+          $ref: '#/definitions/OrderList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/order/process:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - order
+    summary: '处理订单'
+    description: '处理订单'
+    parameters:
+      - name: order_id
+        in: formData
+        description: 订单编号
+        required: true
+        type: string
+      - name: status
+        in: formData
+        description: '订单状态,-1:取消;1:已处理'
+        required: false
+        type: string
+        enum: ['-1','1']
+        default: 1
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/order/history_list:
+  get:
+    tags:
+      - order
+    summary: '结账记录'
+    description: '结账记录'
+    parameters:
+      - name: start_date
+        in: query
+        description: 开始日期
+        required: false
+        type: string
+      - name: end_date
+        in: query
+        description: '结束日期'
+        required: false
+        type: string
+      - name: status
+        in: query
+        description: '状态 0:全部 1: 完成 2:退货'
+        required: false
+        type: string
+        default: 0
+      - name: checkout_by
+        in: query
+        description: '结账人员'
+        required: false
+        type: string
+      - name: refund_by
+        in: query
+        description: '退货人员'
+        required: false
+        type: string
+      - name: per_page
+        in: query
+        description: '每页显示的条数'
+        required: false
+        type: string
+        default: 10
+    responses:
+      '200':
+        description: 结账记录
+        schema:
+          $ref: '#/definitions/OrderHistoryList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/order/comments:
+  get:
+    tags:
+      - order
+    summary: '顧客評論'
+    description: '顧客評論'
+    parameters:
+      - name: level
+        in: query
+        description: |
+
+          篩選
+
+          | 值 | 說明 |
+          | ------ | ------ |
+          | 0 | 所有 |
+          | 1 | 滿意 |
+          | 2 | 普通 |
+          | 3 | 不滿意 |
+        required: false
+        type: string
+        enum: [0,1,2,3]
+        default: 0
+      - name: per_page
+        in: query
+        description: '每页显示的条数'
+        required: false
+        type: string
+        default: 10
+    responses:
+      '200':
+        description: 請求成功
+        schema:
+          $ref: '#/definitions/CommentList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/order/reply_comment:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - order
+    summary: '回覆顧客評論'
+    description: '回覆顧客評論'
+    parameters:
+      - name: id
+        in: formData
+        description: 評論id
+        required: true
+        type: string
+        default: 0
+      - name: reply_content
+        in: formData
+        description: '回覆內容'
+        required: true
+        type: string
+        default: '我是顧客評論回覆內容'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      400:
+        description: '回覆顧客評論失敗'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []

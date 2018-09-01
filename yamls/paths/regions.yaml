@@ -1,0 +1,11 @@
+/regions:
+  get:
+    tags:
+      - index
+    summary: 首頁商圈
+    description: 首頁商圈
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

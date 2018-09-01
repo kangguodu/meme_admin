@@ -1,0 +1,19 @@
+  /log/daily:
+    get:
+      summary: 收入記錄
+      description: 每日收入記錄
+      tags:
+        - Logs
+      parameters:
+        - name: days
+          in: query
+          type: integer
+          description: 從當前時間往前的天數
+          required: true
+      responses:
+        200:
+          description: 返回數據
+        default:
+          description: token失效
+      security:
+        - Bearer: []

@@ -1,0 +1,53 @@
+/common/sendsms:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - tools
+    summary: 发送短信验证码
+    description: 发送短信验证码
+    operationId: tools
+    parameters:
+      - name: phone
+        in: formData
+        description: 电话号码
+        required: true
+        type: string
+      - name: zone
+        in: formData
+        description: 电话区号
+        required: false
+        type: string
+        default: '886'
+    responses:
+      '200':
+        description: sms发送成功
+      '401':
+        description: sms发送失败
+/upload:
+  post:
+    consumes:
+      - multipart/form-data
+    tags:
+      - tools
+    summary: 上传图片
+    description: 上传图片
+    operationId: upload
+    parameters:
+      - name: file
+        in: formData
+        description: 圖片
+        required: false
+        type: file
+      - name: dir
+        in: formData
+        description: 存放目錄
+        enum: ['avatar','banner','activity','temp']
+        default: temp
+        required: true
+        type: string
+    responses:
+      '200':
+        description: '圖片上傳成功,并返回图片路徑'
+      '400':
+        description: 沒有圖片上傳

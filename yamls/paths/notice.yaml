@@ -1,0 +1,62 @@
+/notice:
+  get:
+    tags:
+      - index
+    summary: 通知列表
+    description: 通知列表
+    parameters:
+      - name: member_id
+        in: query
+        description: 會員id
+        required: false
+        type: integer
+      - name: type
+        in: query
+        description: 類型,1主題活動,2錢包更新，3系統更新
+        required: false
+        type: integer
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/notice/view:
+  get:
+    tags:
+      - index
+    summary: 通知詳情,已讀未讀
+    description: 通知詳情，已讀未讀
+    parameters:
+      - name: id
+        in: query
+        description: 通知id
+        required: true
+        type: integer
+      - name: member_id
+        in: query
+        description: 會員id
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/notice/total:
+  get:
+    tags:
+      - index
+    summary: 未讀通知數量
+    description: 未讀通知數量
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

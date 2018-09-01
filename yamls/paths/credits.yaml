@@ -1,0 +1,137 @@
+/credits/index:
+  get:
+    tags:
+      - credits
+    summary: 積分歷史記錄/收入
+    description: 積分歷史記錄/收入
+    parameters:
+      - name: type
+        in: query
+        description: 類型，歷史記錄不設置或為0，收入為1
+        required: false
+        type: integer
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/credits/data:
+  get:
+    tags:
+      - credits
+    summary: 積分記錄（收入）數據統計
+    description: 積分記錄（收入）數據統計
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/list:
+  get:
+    tags:
+      - credits
+    summary: 消費記錄
+    description: 消費記錄
+    parameters:
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+      - name: type
+        in: query
+        description: 按時間不設置或0，按店鋪不為0
+        enum: [0,1]
+        default: 0
+        required: true
+        type: integer
+      - name: date
+        in: query
+        description: 时间,2018-07
+        required: false
+        type: string
+
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/store/details:
+  get:
+    tags:
+      - credits
+    summary: 消費記錄按店鋪詳情
+    description: 消費記錄按店鋪詳情
+    parameters:
+      - name: store_id
+        in: query
+        description: 店鋪id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/view:
+  get:
+    tags:
+      - credits
+    summary: 消費記錄按時間詳情
+    description: 消費記錄按時間詳情
+    parameters:
+      - name: id
+        in: query
+        description: 記錄id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/rebate:
+  get:
+    tags:
+      - credits
+    summary: 待回贈詳細
+    description: 待回贈詳細
+    parameters:
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 请求成功，返回字段參考表rebate_orders
+    security:
+      - Bearer: []
+
+/credits/usage:
+  get:
+    tags:
+      - credits
+    summary: 已使用積分使用情況
+    description: 已使用積分使用情況
+    parameters:
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []

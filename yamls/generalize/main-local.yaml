@@ -1,0 +1,9 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: memecoins網紅
+  description: memecoins網紅API
+  termsOfService: terms
+host: '127.0.0.1'
+basePath: /memecoinsapi/public/api/generalize
+$ref#common: "./common.yaml"

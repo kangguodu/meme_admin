@@ -1,0 +1,11 @@
+/getBotQA:
+  get:
+    tags:
+      - index
+    summary: 關鍵詞
+    description: 關鍵詞
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

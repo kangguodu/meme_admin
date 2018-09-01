@@ -1,0 +1,50 @@
+  /bank/accountinfo:
+    get:
+      summary: 銀行卡信息
+      description: 銀行卡信息
+      tags:
+        - Bank
+      responses:
+        200:
+          description: 返回銀行信息
+      security:
+        - Bearer: []
+  /bank/alter:
+    post:
+      summary: 修改銀行卡信息
+      description: 修改銀行卡信息
+      tags:
+        - Bank
+      parameters:
+        - name: id
+          in: formData
+          required: false
+          type: string
+          description: 银行卡id，为空时创建新银行卡账户
+        - name: bank_name
+          in: formData
+          required: true
+          type: string
+          description: 銀行名稱
+        - name: receiver_name
+          in: formData
+          required: true
+          type: string
+          description: 收款人姓名
+        - name: bank_account
+          in: formData
+          required: true
+          type: string
+          description: 收款人賬戶
+        - name: bank_phone
+          in: formData
+          required: true
+          type: string
+          description: 收款人手機號碼
+      responses:
+        200:
+          description: 返回修改成功
+        default:
+          description: 返回錯誤信息
+      security:
+        - Bearer: []

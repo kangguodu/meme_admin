@@ -1,0 +1,126 @@
+OrderList:
+  properties:
+    id:
+      description: 訂單id
+      type: string
+      example: 1
+    order_no:
+      description: '訂單編號'
+      type: string
+      example: 'A110'
+    date:
+      description: '訂單日期'
+      type: string
+      example: '2018-06-28'
+    member_id:
+      description: '會員編號'
+      type: integer
+      example: 1
+    amount:
+      description: '消費金額'
+      type: string
+      example: '500'
+    credits:
+      description: '積分抵折金額'
+      type: string
+      example: '0'
+    coupons_money:
+      description: '優惠券抵折金額'
+      type: string
+      example: '0'
+    status:
+      description: '狀態 0未處理 -1 已取消 1 已處理'
+      type: integer
+      example: 0
+    nickname:
+      description: '会员昵称'
+      type: string
+      example: '小明'
+    username:
+      description: '会员用户名'
+      type: string
+      example: '小明'
+    created_at:
+      description: '下單時間'
+      type: string
+      example: '2018-06-28 12:00:00'
+OrderHistoryList:
+  properties:
+    id:
+      description: 訂單id
+      type: string
+      example: 1
+    order_no:
+      description: '訂單編號'
+      type: string
+      example: 'A110'
+    amount:
+      description: '消費金額'
+      type: string
+      example: '500'
+    credits:
+      description: '積分抵折金額'
+      type: string
+      example: '0'
+    coupons_money:
+      description: '優惠券抵折金額'
+      type: string
+      example: '0'
+    status:
+      description: '狀態 0未處理 -1 已取消 1 已處理'
+      type: integer
+      example: 0
+    status_text:
+      description: '狀態文本'
+      type: string
+      example: '未处理'
+    updated_at:
+      description: '操作時間'
+      type: string
+      example: '2018-06-28 12:00:00'
+    name:
+      description: '操作人员'
+      type: string
+      example: '小禾'
+    member_username:
+      description: '会员用户名'
+      type: string
+      example: '小禾'
+    member_nickname:
+      description: '会员昵称'
+      type: string
+      example: '小禾'
+CommentList:
+  properties:
+    id:
+      description: 評論ID
+      type: string
+      example: 1
+    content:
+      description: '評論內容'
+      type: string
+      example: ''
+    level:
+      description: '評論等級'
+      type: string
+      example: 1
+    level_text:
+      description: '評價等級文本'
+      type: string
+      example: '滿意'
+    is_reply:
+      description: '是否回覆 0:未回覆 1已回覆'
+      type: string
+      example: '0'
+    reply_content:
+      description: '回覆內容'
+      type: string
+      example: ''
+    created_at:
+      description: '評論時間'
+      type: string
+      example: '2018-06-28 10:00:00'
+    updated_at:
+      description: '回覆時間'
+      type: string
+      example: '2018-06-28 12:00:00'

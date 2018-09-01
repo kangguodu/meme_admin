@@ -1,0 +1,523 @@
+/store/verify_account:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '驗證帳號 step 1'
+    description: '驗證帳號 step 1'
+    parameters:
+      - name: phone
+        in: formData
+        description: 电话号码
+        required: true
+        type: string
+      - name: zone
+        in: formData
+        description: 电话区号
+        required: false
+        type: string
+        default: '886'
+      - name: type
+        in: formData
+        description: "驗證類型,1: 手機 2: 信箱"
+        required: false
+        type: integer
+        default: 1
+    responses:
+      '200':
+        description: sms发送成功
+      '401':
+        description: sms发送失败
+/store/check_code:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '驗證帳號 step 2(可選)'
+    description: '驗證帳號 step2 驗證驗證碼'
+    parameters:
+      - name: phone
+        in: formData
+        description: 手機號碼
+        required: true
+        type: string
+      - name: code
+        in: formData
+        description: 驗證碼
+        required: true
+        type: string
+    responses:
+      '200':
+        description: 驗證成功，返回 token
+      400:
+        description: 驗證碼驗證失敗
+    security:
+      - Bearer: []
+/store/init_password:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '驗證帳號 step 3'
+    description: '驗證帳號 step3 設置新密碼'
+    parameters:
+      - name: password
+        in: formData
+        description: 密碼
+        required: true
+        type: string
+    responses:
+      '200':
+        description: 密碼設置成功
+      '401':
+        description: token不正確
+      422:
+        description: 表單驗證失敗
+    security:
+      - Bearer: []
+/store/login:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '店家用户登录'
+    description: '店家用户登录'
+    parameters:
+      - name: account
+        in: formData
+        description: 手机/邮箱
+        required: true
+        type: string
+      - name: password
+        in: formData
+        description: 密码
+        required: true
+        type: string
+      - name: type
+        in: formData
+        description: 登录类型
+        required: true
+        type: string
+        enum: ['phone','email']
+        default: 'phone'
+    responses:
+      '200':
+        description: 用户登录成功
+      '400':
+        description: 登录失败
+      422:
+        description: 表單驗證失敗
+/store/current/profile:
+  get:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '当前登录用户的个人资料'
+    description: '当前登录用户的个人资料'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/simple_user_list:
+  get:
+    tags:
+      - user
+    summary: '獲取店鋪用戶列表(用於搜索)'
+    description: '獲取店鋪用戶列表(用於搜索)'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/update_profile:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '修改個人資料'
+    description: '修改個人資料'
+    parameters:
+      - name: nickname
+        in: formData
+        description: 暱稱
+        required: false
+        type: string
+      - name: email
+        in: formData
+        description: 信箱
+        required: false
+        type: string
+      - name: gender
+        in: formData
+        description: 性別
+        required: false
+        type: string
+        enum: ['male','female']
+        default: 'male'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+      422:
+        $ref: '#/definitions/UnprocessableEntity'
+    security:
+      - Bearer: []
+/store/current/update_password:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '修改個人密碼'
+    description: '修改個人密碼'
+    parameters:
+      - name: old_password
+        in: formData
+        description: 舊密碼
+        required: true
+        type: string
+      - name: password
+        in: formData
+        description: 新密碼
+        required: true
+        type: string
+      - name: password_confirmation
+        in: formData
+        description: 重複新密碼
+        required: true
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+      422:
+        $ref: '#/definitions/UnprocessableEntity'
+    security:
+      - Bearer: []
+
+/store/resetPassword:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: 忘记密码
+    description: 忘记密码
+    parameters:
+      - name: phone
+        in: formData
+        description: 手機號碼
+        required: true
+        type: string
+      - name: code
+        in: formData
+        description: 驗證碼
+        required: true
+        type: string
+      - name: password
+        in: formData
+        description: 密码
+        required: true
+        type: string
+      - name: password_confirmation
+        in: formData
+        description: 确认密码
+        required: true
+        type: string
+      - name: type
+        in: formData
+        description: 1手機2郵箱
+        enum: [1,2]
+        default: 1
+        required: true
+        type: integer
+    responses:
+      '200':
+        description: 成功
+      400:
+        description: 失敗
+    security:
+      - Bearer: []
+
+/store/updatePhone:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: 修改手机
+    description: 修改手机
+    parameters:
+      - name: phone
+        in: formData
+        description: 手機號碼
+        required: true
+        type: string
+      - name: code
+        in: formData
+        description: 驗證碼
+        required: true
+        type: string
+    responses:
+      '200':
+        description: 成功
+      400:
+        description: 失敗
+    security:
+      - Bearer: []
+/store/current/user_list:
+  get:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '用戶列表(权限设定)'
+    description: '权限设定页面的用戶列表'
+    responses:
+      '200':
+        description: 請求成功
+        schema:
+          $ref: '#/definitions/User'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+/store/current/add_store_user:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '添加店铺用户'
+    description: '添加店铺用户'
+    parameters:
+      - name: mobile
+        in: formData
+        description: '手机'
+        required: false
+        type: string
+      - name: nickname
+        in: formData
+        description: '姓名'
+        required: false
+        type: string
+      - name: password
+        in: formData
+        description: '密码'
+        required: false
+        type: string
+      - name: menus
+        in: formData
+        description: '权限'
+        required: true
+        type: string
+        default: ''
+      - name: position
+        in: formData
+        description: '职位'
+        required: true
+        type: string
+        default: ''
+      - name: code
+        in: formData
+        description: '验证码'
+        required: true
+        type: string
+        default: ''
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/get_store_user:
+  get:
+    tags:
+      - user
+    summary: 获取单个店铺用户资料
+    description: 获取单个店铺用户资料
+    parameters:
+      - name: id
+        description: 用户id
+        type: integer
+        in: query
+        required: true
+        default: 0
+    responses:
+      '200':
+        description: 成功
+        schema:
+          $ref: '#/definitions/User'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/update_store_user:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '更新店铺用户'
+    description: '更新店铺用户'
+    parameters:
+      - name: id
+        in: formData
+        description: '用戶id'
+        required: true
+        type: string
+      - name: mobile
+        in: formData
+        description: '手机'
+        required: false
+        type: string
+      - name: nickname
+        in: formData
+        description: '姓名'
+        required: false
+        type: string
+      - name: password
+        in: formData
+        description: '密码'
+        required: false
+        type: string
+      - name: menus
+        in: formData
+        description: '权限'
+        required: true
+        type: string
+        default: ''
+      - name: position
+        in: formData
+        description: '职位'
+        required: true
+        type: string
+        default: ''
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/remove_store_user:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: '删除店铺用户'
+    description: '删除店铺用户'
+    parameters:
+      - name: id
+        in: formData
+        description: '用户编号'
+        required: ture
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/sendsms:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: 發送code
+    description: 發送code
+    parameters:
+      - name: phone
+        in: formData
+        description: 手機、郵箱
+        required: true
+        type: string
+      - name: type
+        in: formData
+        description: 1手機2郵箱
+        enum: [1,2]
+        default: 1
+        required: true
+        type: integer
+      - name: flag
+        in: formData
+        description: 標識，在需驗證賬號是否存在時設置
+        required: false
+        type: string
+    responses:
+      '200':
+        description: 成功
+      400:
+        description: 失敗
+    security:
+      - Bearer: []
+
+/store/updateEmail:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: 修改郵箱
+    description: 修改郵箱
+    parameters:
+      - name: email
+        in: formData
+        description: 郵箱
+        required: true
+        type: string
+      - name: code
+        in: formData
+        description: 驗證碼
+        required: true
+        type: string
+    responses:
+      '200':
+        description: 成功
+      400:
+        description: 失敗
+    security:
+      - Bearer: []
+/store/current/update_permission:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - user
+    summary: 更新用户权限
+    description: 更新用户权限
+    parameters:
+      - name: user_id
+        in: formData
+        description: 用户id
+        required: true
+        type: string
+      - name: permission
+        in: formData
+        description: 权限
+        required: true
+        type: string
+        enum: ['ALL','ONLYSEE','NONE']
+        default: 'NONE'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []

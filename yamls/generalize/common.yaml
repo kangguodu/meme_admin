@@ -1,0 +1,35 @@
+schemes:
+  - https
+consumes:
+  - application/x-www-form-urlencoded
+paths:
+  $ref#auth: "./path/auth.yaml"
+  $ref#user: "./path/user.yaml"
+  $ref#bank: "./path/bank.yaml"
+  $ref#rank: "./path/rank.yaml"
+  $ref#activity: "./path/activity.yaml"
+  $ref#withdraw: "./path/withdraw.yaml"
+  $ref#log: "./path/log.yaml"
+  $ref#credit: "./path/credit.yaml"
+
+securityDefinitions:
+  Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+
+tags:
+  - name: User
+    description: 用戶登錄、注銷、短信驗證碼、用戶信息及修改
+  - name: Bank
+    description: 銀行賬戶信息、銀行賬戶修改
+  - name: Ranking
+    description: 排行榜：金錢排行榜、邀請排行榜
+  - name: Activity
+    description: 活動列表、活動詳細內容
+  - name: Withdraw
+    description: 提現歷史記錄，提現申請
+  - name: Logs
+    description: 歷史收益記錄，每日記錄
+  - name: Credit
+    description: 用戶錢包信息，網紅收益

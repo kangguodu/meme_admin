@@ -1,0 +1,179 @@
+StoreInfo:
+  properties:
+    id:
+      description: 店鋪id
+      type: integer
+    name:
+      description: 店鋪名稱
+      type: string
+    branchname:
+      description: 店鋪分支名稱
+      type: string
+    city:
+      description: 城市
+      type: string
+    district:
+      description: 縣
+      type: string
+    address:
+      description: 詳細地址
+      type: string
+    phone:
+      description: 電話
+      type: string
+    email:
+      description: 信箱
+      type: string  
+    company_name:
+      description: 公司名稱
+      type: string
+    company_tax_no:
+      description: 統一編號
+      type: string
+    type_name:
+      description: 營業業態
+      type: string
+    avg_cost_status:
+      description: 平均消費狀態
+      type: string
+    avg_cost_low:
+      description: 最低消費
+      type: string
+    avg_cost_high:
+      description: 最高消費
+      type: string
+    facebook:
+      description: facebook
+      type: string
+    instagram:
+      description: instagram
+      type: string
+    google_keyword:
+      description: google_keyword
+      type: string
+    service:
+      description: 提供的服務
+      type: string
+StoreSimpleInfo:
+  properties:
+    id:
+      description: 店鋪id
+      type: integer
+    name:
+      description: 店鋪名稱
+      type: string
+    branchname:
+      description: 店鋪分支名稱
+      type: string
+    phone:
+      description: 電話
+      type: string
+    email:
+      description: 信箱
+      type: string  
+    nickname:
+      description: 店主名稱
+      type: string  
+    gender:
+      description: 性別
+      type: string  
+    service:
+      description: 提供的服務
+      type: string
+StoreBannerData:
+  properties:
+    banners:
+      type: array
+      description: 滚动图片
+      items:
+        properties:
+          id:
+            description: 'id(非必填)'
+            type: integer
+          image:
+            description: '图片'
+            type: string
+StoreOpenHoursList:
+  properties:
+    routine_holiday:
+      description: '特例休假日 0不开启'
+      type: integer
+      example: 0
+    special_holiday:
+      description: '特别休假日 空不开启'
+      type: string
+      example: ''
+    special_business_day:
+      description: '特别营业日 空不开启'
+      type: string
+      example: ''
+    remark:
+      description: 备注
+      type: string
+      example: ''
+    open_hours:
+      description: 营业时间
+      type: array
+      items:
+        properties:
+          id:
+            type: integer
+            description: '记录id'
+          day_of_week:
+            type: integer
+            description: '星期几'
+          time:
+            description: 时间段
+            type: array
+            items:
+              properties:
+                open_time:
+                  type: integer
+                  format: int32
+                  description: '开始时间'
+                close_time:
+                  type: string
+                  description: '结束时间'
+      example: [{"id":1,"day_of_week":1,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":2,"day_of_week":2,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":3,"day_of_week":3,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":4,"day_of_week":4,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":5,"day_of_week":5,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":6,"day_of_week":6,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":7,"day_of_week":7,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]}]
+StoreOpenHoursData:
+  properties:
+    routine_holiday:
+      description:  特例休假日
+      type: integer
+      example: 0
+    special_holiday:
+      description: 特别休假日
+      type: string
+      example: ''
+    special_business_day:
+      description: 特别营业日
+      type: string
+      example: ''
+    remark:
+      description: 备注
+      type: string
+      example: ''
+    open_hours:
+      description: 营业时间
+      type: array
+      items:
+        properties:
+          id:
+            type: integer
+            description: '记录id'
+          day_of_week:
+            type: string
+            description: '星期几'
+          time:
+            description: 时间段
+            type: array
+            items:
+              properties:
+                open_time:
+                  type: integer
+                  format: int32
+                  description: '开始时间'
+                close_time:
+                  type: string
+                  description: '结束时间'
+      example: [{"id":1,"day_of_week":1,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":2,"day_of_week":2,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":3,"day_of_week":3,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":4,"day_of_week":4,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":5,"day_of_week":5,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":6,"day_of_week":6,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]},{"id":7,"day_of_week":7,"time":[{"open_time":"09:00:00","close_time":"21:00:00"}]}]

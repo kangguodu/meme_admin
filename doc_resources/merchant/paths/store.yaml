@@ -1,0 +1,444 @@
+/store/current/info:
+  get:
+    tags:
+      - store
+    summary: 獲取店家基本资料设定
+    description: 獲取店家基本资料设定
+    responses:
+      '200':
+        description: 店家基本资料
+        schema:
+          $ref: '#/definitions/StoreInfo'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/store_simple_info:
+  get:
+    tags:
+      - store
+    summary: 獲取店家基本資料
+    description: '店家基本资料设定,用於帳號資訊中顯示的店家資料'
+    responses:
+      '200':
+        description: 獲取店家基本資料
+        schema:
+          $ref: '#/definitions/StoreSimpleInfo'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/update_store:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - store
+    summary: '更新店鋪信息'
+    description: '更新店鋪信息'
+    parameters:
+      - name: avg_cost_status
+        in: formData
+        description: '平均消費: 0 關閉 1:開啓'
+        required: true
+        type: string
+        default: 0
+      - name: avg_cost_low
+        in: formData
+        description: '最低消費'
+        required: false
+        type: string
+        default: 0
+      - name: avg_cost_high
+        in: formData
+        description: '最高消費'
+        required: false
+        type: string
+        default: 0
+      - name: facebook
+        in: formData
+        description: 'facebook'
+        required: false
+        type: string
+        default: ''
+      - name: instagram
+        in: formData
+        description: 'instagram'
+        required: false
+        type: string
+        default: ''
+      - name: google_keyword
+        in: formData
+        description: 'google_keyword'
+        required: false
+        type: string
+        default: ''
+      - name: email
+        in: formData
+        description: 'email'
+        required: false
+        type: string
+        default: ''
+      - name: service
+        in: formData
+        description: '提供的服务'
+        required: false
+        type: string
+        default: ''
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/get_open_hours:
+  get:
+    tags:
+      - store
+    summary: 获取营业时间
+    description: 获取营业时间
+    responses:
+      '200':
+        description: 营业时间列表
+        schema:
+          $ref: '#/definitions/StoreOpenHoursList'
+    security:
+      - Bearer: []
+/store/current/update_open_hours:
+  post:
+    consumes:
+      - application/json
+    tags:
+      - store
+    summary: 保存营业时间
+    description: 保存营业时间
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/StoreOpenHoursData"
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+        - Bearer: []
+/store/current/get_banner_list:
+  get:
+    tags:
+      - store
+    summary: '获取店家首页图片列表'
+    description: '获取店家首页图片列表'
+    parameters:
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/add_banner_list:
+  post:
+    consumes:
+      - application/json
+    tags:
+      - store
+    summary: 更新首页滚动图片
+    description: 更新首页滚动图片
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/StoreBannerData"
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+        - Bearer: []
+/store/current/get_download_list:
+  get:
+    tags:
+      - store
+    summary: '获取店家下载专区列表'
+    description: '获取店家下载专区列表'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/get_download_detail:
+  get:
+    tags:
+      - store
+    summary: '获取店家下载详情'
+    description: '获取店家下载详情'
+    parameters:
+      - name: id
+        in: query
+        description: 'id'
+        required: ture
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/bank_list:
+  get:
+    tags:
+      - store
+    summary: '获取店家银行卡列表'
+    description: '获取店家银行卡列表'
+    responses:
+      '200':
+        description: 请求成功
+        schema:
+          $ref: '#/definitions/BankList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/bank_count:
+  get:
+    tags:
+      - store
+    summary: '获取店家银行卡数量'
+    description: '获取店家银行卡数量'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/add_bank:
+  post:
+    consumes:
+      - application/json
+    tags:
+      - store
+    summary: 添加银行卡
+    description: 添加银行卡
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/StoreBankAdd"
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+        - Bearer: []
+/store/current/delete_bank:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - store
+    summary: '删除银行卡'
+    description: '删除银行卡'
+    parameters:
+      - name: id
+        in: formData
+        description: 银行卡记录id
+        required: true
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/withdrawl_list:
+  get:
+    tags:
+      - store
+    summary: '获取店家请款列表'
+    description: '获取店家请款列表'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/withdrawl_count:
+  get:
+    tags:
+      - store
+    summary: '获取店家请款进行中数量'
+    description: '获取店家请款进行中数量'
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/add_withdrawl:
+  post:
+    consumes:
+      - application/json
+    tags:
+      - store
+    summary: 添加请款记录
+    description: 添加请款记录
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/AddWithDrawlData"
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+        - Bearer: []
+/store/current/cancel_withdrawl:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - store
+    summary: '取消请款记录'
+    description: '取消请款记录'
+    parameters:
+      - name: id
+        in: formData
+        description: 请款记录id
+        required: true
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/current/inviteNum:
+  get:
+    tags:
+      - store
+    summary: 邀請數
+    description: 邀請數
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+    security:
+      - Bearer: []
+/store/current/logo:
+  get:
+    tags:
+      - store
+    summary: 獲取店家logo
+    description: 獲取店家logo
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+    security:
+      - Bearer: []
+/store/current/update_logo:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - store
+    summary: 更新店鋪logo
+    description: 更新店鋪logo
+    parameters:
+      - name: logo
+        in: formData
+        description: 上傳的圖片名稱
+        required: true
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+
+/company_bank:
+  get:
+    tags:
+      - store
+    summary: 公司銀行
+    description: 公司銀行
+    responses:
+      '200':
+        description: 成功
+    security:
+      - Bearer: []
+
+/store/return/notice:
+  get:
+    tags:
+      - store
+    summary: 回贈金不足提示，0為金額大於3000,1為第一次2為第二次3第三次
+    description: 回贈金不足提示，0為金額大於3000,1為第一次2為第二次3第三次
+    responses:
+      '200':
+        description: 店家基本资料
+        schema:
+          $ref: '#/definitions/StoreInfo'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+
+/store/notice:
+  get:
+    tags:
+      - store
+    summary: 店鋪通知
+    description: 店鋪通知
+    parameters:
+      - name: per_page
+        in: query
+        description: 每頁大小
+        required: true
+        type: integer
+    responses:
+      '200':
+        description: 成功
+        schema:
+          $ref: '#/definitions/StoreInfo'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+
+/store/notice/view:
+  get:
+    tags:
+      - store
+    summary: 查看通知
+    description: 查看通知
+    parameters:
+      - name: id
+        in: query
+        description: id
+        required: true
+        type: integer
+    responses:
+      '200':
+        description: 通知詳情
+        schema:
+          $ref: '#/definitions/StoreInfo'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []

@@ -1,0 +1,46 @@
+schemes:
+  - https
+consumes:
+  - application/x-www-form-urlencoded
+paths:
+  $ref#tools: "./paths/tools.yaml"
+  $ref#user: "./paths/user.yaml"
+  $ref#banner: "./paths/banner.yaml"
+  $ref#collection: "./paths/collection.yaml"
+  $ref#regions: "./paths/regions.yaml"
+  $ref#store: "./paths/store.yaml"
+  $ref#activity: "./paths/activity.yaml"
+  $ref#order: "./paths/order.yaml"
+  $ref#coupons: "./paths/coupons.yaml"
+  $ref#credits: "./paths/credits.yaml"
+  $ref#other: "./paths/other.yaml"
+  $ref#notice: "./paths/notice.yaml"
+  $ref#service: "./paths/service.yaml"
+definitions:
+  $ref#http-status: "./definitions/http_status.yaml"
+tags:
+  - name: tools
+    description: 公共
+  - name: user
+    description: 會員
+  - name: index
+    description: 首頁
+  - name: store
+    description: 店鋪
+  - name: coupons
+    description: 優惠券
+  - name: collection
+    description: 收藏
+  - name: order
+    description: 下單
+  - name: credits
+    description: 我的積分
+  - name: other
+    description: 其他
+  - name: service
+    description: 客服
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header

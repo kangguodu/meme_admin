@@ -1,0 +1,41 @@
+  /activity/list:
+    get:
+      summary: 獲取活動列表
+      description: 獲取活動列表
+      tags:
+        - Activity
+      parameters:
+        - name: per_page
+          in: query
+          type: integer
+          description: 每頁條數
+        - name: page
+          in: query
+          type: integer
+          description: 頁數
+      responses:
+        200:
+          description: 返回列表數據
+        default:
+          description: token無效
+      security:
+        - Bearer: []
+  /activity/detail:
+    get:
+      summary: 獲取活動詳情
+      description: 獲取活動詳情
+      tags:
+        - Activity
+      parameters:
+        - name: id
+          in: query
+          type: integer
+          description: 活動id
+          required: true
+      responses:
+        200:
+          description: 返回列表詳情
+        default:
+          description: token無效
+      security:
+        - Bearer: []

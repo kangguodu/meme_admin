@@ -1,0 +1,112 @@
+/store/account/balance:
+  get:
+    tags:
+      - store
+    summary: 店家積分額度
+    description: 店家積分額度
+    responses:
+      '200':
+        description: 店家積分額度
+        schema:
+          $ref: '#/definitions/StoreAmount'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/account/income:
+  get:
+    tags:
+      - store
+    summary: 店家请款营业收入
+    description: 店家请款营业收入
+    responses:
+      '200':
+        description: 店家请款营业收入
+        schema:
+          $ref: '#/definitions/StoreInComeAmount'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/account/recharge_history:
+  get:
+    tags:
+      - store
+    summary: 店家充值記錄
+    description: 店家充值記錄
+    parameters:
+      - name: per_page
+        description: 每页显示的条数
+        type: integer
+        in: query
+        default: 10
+    responses:
+      '200':
+        description: 店家充值記錄
+        schema:
+          $ref: '#/definitions/StoreAmountBills'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/account/change_probability:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - store
+    summary: 修改撥數
+    description: 修改撥數
+    parameters:
+      - name: probability
+        in: formData
+        description: '單筆消費回贈%數'
+        required: false
+        type: string
+      - name: fixed_probability
+        in: formData
+        description: '單筆消費固定回贈%數'
+        required: false
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/account/bills:
+  get:
+    tags:
+      - store
+    summary: 获取店家账户记录
+    description: 获取店家账户记录
+    parameters:
+      - name: per_page
+        description: 每页显示的条数
+        type: integer
+        in: query
+        default: 10
+      - name: category
+        description: |
+          賬務分類
+          
+          | 值 | 說明 |
+          | ------ | ------ |
+          | 0 | 全部 |
+          | 2 | 營業收入 |
+          | 3 | 積分額度 |
+          | 4 | 積分收入 | 
+        type: integer
+        in: query
+        default: 0
+        enum: [0,2,3,4]
+    responses:
+      '200':
+        description: 获取店家账户记录
+        schema:
+          $ref: '#/definitions/StoreAmountLists'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []

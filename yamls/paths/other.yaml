@@ -1,0 +1,177 @@
+/store/create:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - other
+    summary: 商家入驻
+    description: 商家入驻
+    parameters:
+      - name: name
+        in: formData
+        description: 名稱
+        required: true
+        type: string
+      - name: phone
+        in: formData
+        description: 電話
+        required: true
+        type: string
+      - name: company_name
+        in: formData
+        description: 公司
+        required: true
+        type: string
+      - name: company_tax_no
+        in: formData
+        description: 統一編號
+        required: true
+        type: string
+      - name: type_name
+        in: formData
+        description: 營業類別
+        required: true
+        type: string
+      - name: city
+        in: formData
+        description: 城市
+        required: true
+        type: string
+      - name: address
+        in: formData
+        description: 详细地址
+        required: true
+        type: string
+      - name: other
+        in: formData
+        description: 其他
+        required: false
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+
+/store/feedback:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - other
+    summary: 店鋪回饋
+    description: 店鋪回饋
+    parameters:
+      - name: store_id
+        in: formData
+        description: 店鋪id
+        required: true
+        type: integer
+      - name: content
+        in: formData
+        description: 內容
+        required: true
+        type: string
+      - name: description
+        in: formData
+        description: 詳情概況
+        required: false
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/cooperation:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - other
+    summary: 我要合作
+    description: 我要合作
+    parameters:
+      - name: username
+        in: formData
+        description: 姓名
+        required: true
+        type: string
+      - name: phone
+        in: formData
+        description: 電話
+        required: true
+        type: string
+      - name: company_name
+        in: formData
+        description: 公司抬頭
+        required: true
+        type: string
+      - name: company_tax_no
+        in: formData
+        description: 統一編號
+        required: true
+        type: string
+      - name: type_name
+        in: formData
+        description: 營業類別
+        required: true
+        type: string
+      - name: direction
+        in: formData
+        description: 合作方向
+        required: true
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/media/contact:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - other
+    summary: 媒體聯繫
+    description: 媒體聯繫
+    parameters:
+      - name: company_name
+        in: formData
+        description: 媒體單位
+        required: true
+        type: string
+      - name: username
+        in: formData
+        description: 聯絡人
+        required: true
+        type: string
+      - name: phone
+        in: formData
+        description: 聯絡手機
+        required: true
+        type: string
+      - name: report_content
+        in: formData
+        description: 報道內容
+        required: true
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/store/region:
+  get:
+    tags:
+      - other
+    summary: 城市
+    description: 城市
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

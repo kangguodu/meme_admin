@@ -1,0 +1,36 @@
+User:
+  properties:
+    id:
+      description: 會員id
+      type: string
+      example: 1
+    nickname:
+      description: 暱稱
+      type: string
+      example: '小明'
+    mobile:
+      description: 手機號碼
+      type: string
+      example: '110'
+    email:
+      description: 信箱
+      type: string
+      example: 'test@example.com'
+    emailStatus:
+      description: 信箱驗證狀態
+      type: string
+      example: 'unverified'
+    permission:
+      description: 權限
+      type: string
+      example: 'ALL'
+    superAccount:
+      description: 老闆標識
+      type: integer
+      example: 1
+    gender:
+      description: 性別
+      type: string
+      example: 'male'
+
+       

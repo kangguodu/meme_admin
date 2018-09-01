@@ -1,0 +1,168 @@
+/store/query:
+  get:
+    tags:
+      - store
+    summary: 鮮貨報馬仔，熱搜人氣，鄰近店家，響導嚴選,蜜蜜推薦，在地小吃
+    description: 鮮貨報馬仔，熱搜人氣，鄰近店家，響導嚴選,蜜蜜推薦，在地小吃
+    parameters:
+      - name: lat
+        in: query
+        description: 纬度
+        required: false
+        type: string
+      - name: lng
+        in: query
+        description: 经度
+        required: false
+        type: string
+      - name: orderby
+        in: query
+        description: 排序字段,上架時間，會員評論數，收藏人數,搜索人氣次數，點擊次數,最低消費，最高消費,距離,評分,人氣次數
+        enum: ['created_at','comment_number','collect_number','number','click_number','avg_cost_low','avg_cost_high','distance','level','order_number']
+        default: 'created_at'
+        required: false
+        type: string
+      - name: desc
+        in: query
+        description: 排序
+        enum: ['DESC','ASC']
+        default: 'DESC'
+        required: false
+        type: string
+      - name: size
+        in: query
+        description: 距離，單位千米
+        required: false
+        type: integer
+      - name: type
+        in: query
+        description: 標識，特殊情況下使用，1蜜蜜推薦
+        required: false
+        type: integer
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+
+
+/store/search:
+  get:
+    tags:
+      - store
+    summary: 关键词搜索
+    description: 关键词搜索
+    parameters:
+      - name: keyword
+        in: query
+        description: 搜索關鍵詞
+        required: true
+        type: string
+      - name: member_id
+        in: query
+        description: 如果登錄用戶搜索才傳
+        required: false
+        type: integer
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/store/hot_word:
+  get:
+    tags:
+      - store
+    summary: 热搜词列表
+    description: 热搜词列表
+    parameters:
+      - name: member_id
+        in: query
+        description: 会员id
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/store/view:
+  get:
+    tags:
+      - store
+    summary: 店鋪詳情
+    description: 店鋪詳情
+    parameters:
+      - name: id
+        in: query
+        description: 店鋪id
+        required: true
+        type: integer
+      - name: lat
+        in: query
+        description: 當前位置緯度
+        required: true
+        type: string
+      - name: lng
+        in: query
+        description: 當前位置經度
+        required: true
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/store/comment:
+  get:
+    tags:
+      - store
+    summary: 查看店家评论
+    description: 查看店家评论
+    parameters:
+      - name: id
+        in: query
+        description: 店鋪id
+        required: true
+        type: integer
+      - name: per_page
+        in: query
+        description: 每页条数
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/is_collect:
+  get:
+    tags:
+      - store
+    summary: 店鋪是否收藏
+    description: 店鋪是否收藏
+    parameters:
+      - name: id
+        in: query
+        description: 店鋪id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: true是，false否
+    security:
+      - Bearer: []

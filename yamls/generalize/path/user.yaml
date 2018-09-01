@@ -1,0 +1,42 @@
+  /user/info:
+    get:
+      summary: 用戶個人信息
+      description: 用戶個人信息
+      tags:
+        - User
+      responses:
+        200:
+          description: 返回用戶數據
+      security:
+        - Bearer: []
+
+  /user/alterinfo:
+    post:
+      summary: 修改個人信息
+      description: 修改個人信息
+      tags:
+        - User
+      parameters:
+        - name: nickname
+          in: formData
+          required: false
+          type: string
+        - name: gender
+          in: formData
+          required: false
+          type: number
+        - name: avatar
+          in: formData
+          required: false
+          type: string
+        - name: birthday
+          in: formData
+          required: false
+          type: string
+      responses:
+        200:
+          description: 返回修改成功
+        default:
+          description: 返回錯誤信息
+      security:
+        - Bearer: []

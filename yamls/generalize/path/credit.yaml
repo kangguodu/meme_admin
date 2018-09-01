@@ -1,0 +1,11 @@
+  /credit/info:
+    get:
+      summary: 網紅錢包信息
+      description: 網紅錢包信息
+      tags:
+        - Credit
+      responses:
+        200:
+          description: 返回用戶數據 freeze_credits:凍結金額：提現未完成凍結在此,promo_credits:當前活動金額：當前可用金額,promo_credits_total:歷史推廣獲得：歷史推廣獲得總金額
+      security:
+        - Bearer: []

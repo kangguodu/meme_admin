@@ -1,0 +1,158 @@
+/store/other/simple_activity:
+  get:
+    tags:
+      - other
+    summary: 獲取簡單消息列表
+    description: 獲取簡單消息列表,未读消息数量从返回消息meta中的unread
+    responses:
+      '200':
+        description: 消息列表
+        schema:
+          $ref: '#/definitions/ActivityList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/other/activity_list:
+  get:
+    tags:
+      - other
+    summary: 獲取消息列表
+    description: 獲取消息列表,未读消息数量从返回消息meta中的unread
+    parameters:
+      - name: per_page
+        description: 每页显示的条数
+        type: integer
+        in: query
+        default: 10
+    responses:
+      '200':
+        description: 消息列表
+        schema:
+          $ref: '#/definitions/ActivityList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/other/activity_detail:
+  get:
+    tags:
+      - other
+    summary: 獲取消息詳情
+    description: 獲取消息詳情
+    parameters:
+      - name: id
+        description: 消息id
+        type: integer
+        in: query
+        default: 0
+    responses:
+      '200':
+        description: 獲取消息詳情
+        schema:
+          $ref: '#/definitions/ActivityDetail'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+      '400':
+        $ref: '#/definitions/NotFound'
+    security:
+      - Bearer: []
+/store/test/store_msg:
+  get:
+    tags:
+      - other
+    summary: 测试下订单推送
+    description: 测试下订单推送
+    responses:
+      '200':
+        description: 消息列表
+/store/test/store_order_msg:
+  get:
+    tags:
+      - other
+    summary: 测试下订单mqtt推送
+    description: 测试下订单mqtt推送
+    responses:
+      '200':
+        description: 消息列表
+/store/other/token_check:
+  get:
+    tags:
+      - other
+    summary: token驗證
+    description: token驗證
+    operationId: token_check
+    responses:
+      '200':
+        description: 成功
+      '401':
+        description: 失败
+    security:
+      - Bearer: []
+/store/sign_apply/form:
+  get:
+    tags:
+      - other
+    summary: 获取其它项目申请表单的立牌項目
+    description: 获取其它项目申请表单立牌項目
+    responses:
+      '200':
+        description: 返回立牌項目
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/sign_apply/create:
+  post:
+    consumes:
+      - application/json
+    tags:
+      - other
+    summary: 提交其它项目申请表单
+    description: 提交其它项目申请表单
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: "#/definitions/ApplyInfo"
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+        - Bearer: []
+/store/sign_apply/count:
+  get:
+    tags:
+      - other
+    summary: 获取其它项目申请表单當前處理數量
+    description: 获取其它项目申请表单當前處理數量
+    responses:
+      '200':
+        description: 返回處理數量
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/sign_apply:
+  get:
+    tags:
+      - other
+    summary: 获取單個其它项目申请表单詳情
+    description: 获取單個其它项目申请表单詳情
+    parameters:
+      - name: id
+        description: 申請id
+        type: integer
+        in: query
+        default: 0
+    responses:
+      '200':
+        description: 消息列表
+        schema:
+          $ref: '#/definitions/ApplyList'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []

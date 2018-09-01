@@ -1,0 +1,22 @@
+/index:
+  get:
+    tags:
+      - index
+    summary: 首頁
+    description: 首頁
+    parameters:
+      - name: lat
+        in: query
+        description: 當前位置緯度
+        required: true
+        type: string
+      - name: lng
+        in: query
+        description: 當前位置經度
+        required: true
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

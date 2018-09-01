@@ -1,0 +1,115 @@
+ActivityList:
+  properties:
+    id:
+      description: id
+      type: string
+      example: 1
+    title:
+      description: '標題'
+      type: string
+      example: '標題'
+    description:
+      description: '描述'
+      type: integer
+      example: 1
+    type:
+      description: '消息類型 1:文章 2:活動'
+      type: string
+      example: 1
+    created_at:
+      description: '發佈時間'
+      type: string
+      example: '2018-01-01 00:00:00'
+    read_status:
+      description: '閱讀狀態'
+      type: string
+      example: 'false'
+ActivityDetail:
+  properties:
+    id:
+      description: id
+      type: string
+      example: 1
+    title:
+      description: '標題'
+      type: string
+      example: '標題'
+    content:
+      description: '內容'
+      type: integer
+      example: 1
+    type:
+      description: '消息類型 1:文章 2:活動'
+      type: string
+      example: 1
+    created_at:
+      description: '發佈時間'
+      type: string
+      example: '2018-01-01 00:00:00'
+ApplyList:
+  properties:
+    id:
+      description: id
+      type: string
+      example: 1
+    paster_count:
+      description: '贴纸'
+      type: string
+      example: 0
+    dm:
+      description: 'dm'
+      type: integer
+      example: 0
+    one_type_card:
+      description: '人型立牌'
+      type: string
+      example: 0
+    other_remark:
+      description: '其它項目'
+      type: string
+      example: ''
+    created_at:
+      description: '申請時間'
+      type: string
+      example: '2018-01-01 00:00:00'
+    status:
+      description: '狀態'
+      type: string
+      example: 1
+    status_text:
+      description: '狀態文本'
+      type: string
+      example: 1
+    cancel_reason:
+      description: '取消原因'
+      type: string
+      example: '待處理'
+ApplyInfo:
+  properties:
+    id:
+      description: id
+      type: integer
+    items:
+      description: '申请项目'
+      type: array
+      items:
+        properties:
+          id:
+            description: '立牌id'
+            type: integer
+          quantity:
+            description: '數量'
+            type: string
+      example: [{"id":1,"quantity":0},{"id":2,"quantity":2},{"id":3,"quantity":0}]
+    other_remark:
+      description: '其它項目'
+      type: string
+      example: ''
+    address:
+      description: '寄送地址'
+      type: string
+      example: ''
+    imagesign_carriage:
+      description: '寄送运费'
+      type: string
+      example: 0

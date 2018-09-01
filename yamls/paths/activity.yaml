@@ -1,0 +1,17 @@
+/activity:
+  get:
+    tags:
+      - index
+    summary: 活動列表
+    description: 活動列表
+    parameters:
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功,狀態3活動即將結束
+    security:
+      - Bearer: []

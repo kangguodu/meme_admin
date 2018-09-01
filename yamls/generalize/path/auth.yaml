@@ -1,0 +1,53 @@
+  /auth/login:
+    post:
+      summary: 用戶登錄
+      description: 用戶登錄
+      parameters:
+        - name: phone
+          in: formData
+          description: 手機號碼
+          required: true
+          type: string
+        - name: code
+          in: formData
+          description: 短信驗證碼
+          required: true
+          type: string
+      tags:
+        - User
+      deprecated: true
+      responses:
+        '200':
+          description: 用户信息和token
+        'default':
+          description: '操作异常,执行失败.返回信息描述错误详情'
+  /auth/logout:
+    get:
+      summary: 用戶注銷
+      description: 用戶注銷
+      tags:
+        - User
+      deprecated: true
+      responses:
+        200:
+          description: 返回成功
+        default:
+          description: token無效
+  /auth/sms:
+    post:
+      summary: 短信驗證碼
+      description: 短信驗證碼
+      parameters:
+        - name: phone
+          in: formData
+          description: 手機號碼
+          required: true
+          type: string
+      deprecated: true
+      tags:
+        - User
+      responses:
+        200:
+          description: 返回短信發送成功
+        default:
+          description: 返回用戶不存在或號碼輸入錯誤

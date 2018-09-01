@@ -1,0 +1,1604 @@
+swagger: '2.0'
+info:
+  title: memecoins App api
+  description: memecoins App api swagger文档
+  termsOfService: ''
+  contact:
+    email: sales@techrare.com
+  version: 1.0.0
+host: office.techrare.com
+basePath: /memecoinsapi/public/api
+schemes:
+  - https
+consumes:
+  - application/x-www-form-urlencoded
+paths:
+  /sms:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - tools
+      summary: 发送短信验证码
+      description: 发送短信验证码
+      operationId: sms
+      parameters:
+        - name: phone
+          in: formData
+          description: 电话号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 电话区号
+          required: false
+          type: string
+      responses:
+        '200':
+          description: sms发送成功
+        '401':
+          description: sms发送失败
+      security:
+        - Bearer: []
+  /upload:
+    post:
+      consumes:
+        - multipart/form-data
+      tags:
+        - tools
+      summary: 上传图片
+      description: 上传图片
+      operationId: upload
+      parameters:
+        - name: file
+          in: formData
+          description: 圖片
+          required: true
+          type: file
+        - name: dir
+          in: formData
+          description: 存放目錄
+          enum:
+            - avatar
+            - banner
+            - activity
+            - temp
+          default: temp
+          required: true
+          type: string
+      responses:
+        '200':
+          description: '圖片上傳成功,并返回图片路徑'
+        '400':
+          description: 沒有圖片上傳
+      security:
+        - Bearer: []
+  /upload_base64:
+    post:
+      consumes:
+        - multipart/form-data
+      tags:
+        - tools
+      summary: 上传base64图片
+      description: 上传base64图片
+      operationId: upload_base64
+      parameters:
+        - name: file
+          in: formData
+          description: 圖片
+          required: true
+          type: string
+        - name: dir
+          in: formData
+          description: 存放目錄
+          enum:
+            - avatar
+            - banner
+            - activity
+            - temp
+          default: temp
+          required: true
+          type: string
+      responses:
+        '200':
+          description: '圖片上傳成功,并返回图片路徑'
+        '400':
+          description: 沒有圖片上傳
+      security:
+        - Bearer: []
+  /tools/token_check:
+    get:
+      tags:
+        - tools
+      summary: token驗證
+      description: token驗證
+      operationId: token_check
+      responses:
+        '200':
+          description: 成功
+        '401':
+          description: 失败
+      security:
+        - Bearer: []
+  /share:
+    get:
+      tags:
+        - tools
+      summary: 分享
+      description: 分享
+      operationId: share
+      parameters:
+        - name: id
+          in: query
+          description: 店鋪id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: >-
+            生成頁面成功,https://office.techrare.com/memecoinsapi/public/share/9999.html
+        '401':
+          description: 頁面生成失敗
+      security:
+        - Bearer: []
+  /user/qrcode:
+    get:
+      tags:
+        - tools
+      summary: 网红qrcode
+      description: 网红qrcode
+      operationId: user_qrcode
+      responses:
+        '200':
+          description: 成功
+        '401':
+          description: 失敗
+      security:
+        - Bearer: []
+  /user/login:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 登录
+      description: 登录
+      parameters:
+        - name: phone
+          in: formData
+          description: 手机号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 區號
+          required: false
+          type: string
+        - name: password
+          in: formData
+          description: 密碼
+          required: true
+          type: string
+        - name: type
+          in: formData
+          description: 网红app时设置为2
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/signup:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 注册
+      description: 注册
+      parameters:
+        - name: phone
+          in: formData
+          description: 手机号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 區號
+          required: false
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/fill:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 填寫註冊信息
+      description: 填寫註冊信息
+      parameters:
+        - name: phone
+          in: formData
+          description: phone
+          required: true
+          type: string
+        - name: username
+          in: formData
+          description: 姓名
+          required: false
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: false
+          type: string
+        - name: password
+          in: formData
+          description: 密碼
+          required: true
+          type: string
+        - name: promo_code
+          in: formData
+          description: 邀請碼
+          required: false
+          type: string
+        - name: user_type
+          in: formData
+          description: 用户类型，1会员2网红
+          enum:
+            - 1
+            - 2
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/resetpassword:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 忘記密碼
+      description: 忘記密碼
+      parameters:
+        - name: phone
+          in: formData
+          description: 電話
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 區號
+          required: false
+          type: string
+        - name: password
+          in: formData
+          description: 密碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/logout:
+    get:
+      tags:
+        - user
+      summary: 退出登錄
+      description: 退出登錄
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /user/userinfo:
+    get:
+      tags:
+        - user
+      summary: 獲取個人資料
+      description: 獲取個人資料
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/changepassword:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改密碼
+      description: 修改密碼
+      parameters:
+        - name: old_password
+          in: formData
+          description: 原密碼
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: 密碼
+          required: true
+          type: string
+        - name: password_confirmation
+          in: formData
+          description: 確認密碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/update:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改會員信息
+      description: 修改會員信息
+      parameters:
+        - name: nickname
+          in: formData
+          description: 暱稱
+          required: false
+          type: string
+        - name: username
+          in: formData
+          description: 姓名
+          required: false
+          type: integer
+        - name: avatar
+          in: formData
+          description: 頭像
+          required: false
+          type: string
+        - name: gender
+          in: formData
+          description: 性別
+          required: false
+          type: integer
+        - name: birthday
+          in: formData
+          description: 生日
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /isSetPayPassword:
+    get:
+      tags:
+        - user
+      summary: 有没有設置安全嗎
+      description: 有没有設置安全嗎
+      responses:
+        '200':
+          description: 请求成功，true是false否
+      security:
+        - Bearer: []
+  /verifyPayPassword:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 安全碼驗證
+      description: 安全碼驗證
+      parameters:
+        - name: secure_password
+          in: formData
+          description: 安全碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功，true是false1否
+      security:
+        - Bearer: []
+  /update/phone:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改手機號
+      description: 修改手機號
+      parameters:
+        - name: phone
+          in: formData
+          description: 手机号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 區號
+          required: false
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /update/password:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 修改安全码
+      description: 修改安全码
+      parameters:
+        - name: secure_password
+          in: formData
+          description: 安全碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /checkCode:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: 驗證驗證碼
+      description: 驗證驗證碼
+      parameters:
+        - name: phone
+          in: formData
+          description: 手机号码
+          required: true
+          type: string
+        - name: zone
+          in: formData
+          description: 區號
+          required: false
+          type: string
+        - name: code
+          in: formData
+          description: 驗證碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /check/phone:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: '验证手機號,註冊后發短信'
+      description: '验证手機號,註冊后發短信'
+      parameters:
+        - name: phone
+          in: formData
+          description: 手机号码
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /vertify/phone:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - user
+      summary: '验证手機號,未註冊不發短信'
+      description: '验证手機號,未註冊不發短信'
+      parameters:
+        - name: phone
+          in: formData
+          description: 手机号码
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/bind:
+    get:
+      tags:
+        - user
+      summary: 綁定邀請碼
+      description: 綁定邀請碼
+      parameters:
+        - name: id
+          in: query
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /user/promo:
+    get:
+      tags:
+        - user
+      summary: 查看綁定人
+      description: 查看綁定人
+      parameters:
+        - name: code
+          in: query
+          description: 邀請碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /index:
+    get:
+      tags:
+        - index
+      summary: 首頁
+      description: 首頁
+      parameters:
+        - name: lat
+          in: query
+          description: 當前位置緯度
+          required: true
+          type: string
+        - name: lng
+          in: query
+          description: 當前位置經度
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /collection/add:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - collection
+      summary: 收藏/取消
+      description: 收藏/取消
+      parameters:
+        - name: store_id
+          in: formData
+          description: '店鋪id數組,json,[1,2]'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /collection/list:
+    get:
+      tags:
+        - collection
+      summary: 收藏列表
+      description: 收藏列表
+      parameters:
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /regions:
+    get:
+      tags:
+        - index
+      summary: 首頁商圈
+      description: 首頁商圈
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/query:
+    get:
+      tags:
+        - store
+      summary: '鮮貨報馬仔，熱搜人氣，鄰近店家，響導嚴選,蜜蜜推薦，在地小吃'
+      description: '鮮貨報馬仔，熱搜人氣，鄰近店家，響導嚴選,蜜蜜推薦，在地小吃'
+      parameters:
+        - name: lat
+          in: query
+          description: 纬度
+          required: false
+          type: string
+        - name: lng
+          in: query
+          description: 经度
+          required: false
+          type: string
+        - name: orderby
+          in: query
+          description: '排序字段,上架時間，會員評論數，收藏人數,搜索人氣次數，點擊次數,最低消費，最高消費,距離,評分,人氣次數'
+          enum:
+            - created_at
+            - comment_number
+            - collect_number
+            - number
+            - click_number
+            - avg_cost_low
+            - avg_cost_high
+            - distance
+            - level
+            - order_number
+          default: created_at
+          required: false
+          type: string
+        - name: desc
+          in: query
+          description: 排序
+          enum:
+            - DESC
+            - ASC
+          default: DESC
+          required: false
+          type: string
+        - name: size
+          in: query
+          description: 距離，單位千米
+          required: false
+          type: integer
+        - name: type
+          in: query
+          description: 標識，特殊情況下使用，1蜜蜜推薦
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/search:
+    get:
+      tags:
+        - store
+      summary: 关键词搜索
+      description: 关键词搜索
+      parameters:
+        - name: keyword
+          in: query
+          description: 搜索關鍵詞
+          required: true
+          type: string
+        - name: member_id
+          in: query
+          description: 如果登錄用戶搜索才傳
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/hot_word:
+    get:
+      tags:
+        - store
+      summary: 热搜词列表
+      description: 热搜词列表
+      parameters:
+        - name: member_id
+          in: query
+          description: 会员id
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/view:
+    get:
+      tags:
+        - store
+      summary: 店鋪詳情
+      description: 店鋪詳情
+      parameters:
+        - name: id
+          in: query
+          description: 店鋪id
+          required: true
+          type: integer
+        - name: lat
+          in: query
+          description: 當前位置緯度
+          required: true
+          type: string
+        - name: lng
+          in: query
+          description: 當前位置經度
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/comment:
+    get:
+      tags:
+        - store
+      summary: 查看店家评论
+      description: 查看店家评论
+      parameters:
+        - name: id
+          in: query
+          description: 店鋪id
+          required: true
+          type: integer
+        - name: per_page
+          in: query
+          description: 每页条数
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /is_collect:
+    get:
+      tags:
+        - store
+      summary: 店鋪是否收藏
+      description: 店鋪是否收藏
+      parameters:
+        - name: id
+          in: query
+          description: 店鋪id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: true是，false否
+      security:
+        - Bearer: []
+  /activity:
+    get:
+      tags:
+        - index
+      summary: 活動列表
+      description: 活動列表
+      parameters:
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: '成功,狀態3活動即將結束'
+      security:
+        - Bearer: []
+  /order/create:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - order
+      summary: 下单
+      description: 下单
+      parameters:
+        - name: store_id
+          in: formData
+          description: 店鋪id
+          required: true
+          type: integer
+        - name: amount
+          in: formData
+          description: 消費總金額
+          required: true
+          type: string
+        - name: cash
+          in: formData
+          description: 現金
+          required: true
+          type: string
+        - name: credits
+          in: formData
+          description: 積分抵現
+          required: true
+          type: string
+        - name: coupons_id
+          in: formData
+          description: 優惠券id
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/cancel:
+    get:
+      tags:
+        - order
+      summary: 取消訂單
+      description: 取消訂單
+      parameters:
+        - name: order_id
+          in: query
+          description: 訂單id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /comment/add:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - order
+      summary: 評論
+      description: 評論
+      parameters:
+        - name: order_id
+          in: formData
+          description: 訂單id
+          required: true
+          type: integer
+        - name: content
+          in: formData
+          description: 評論內容
+          required: false
+          type: string
+        - name: image
+          in: formData
+          description: 評論图片
+          required: false
+          type: string
+        - name: level
+          in: formData
+          description: 評分
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+          default: 1
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/refund:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - order
+      summary: 退货
+      description: 退货
+      parameters:
+        - name: order_id
+          in: formData
+          description: 订单id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/check:
+    get:
+      tags:
+        - order
+      summary: 掃碼后判斷店鋪，待處理訂單是否存在
+      description: 掃碼后判斷店鋪，待處理訂單是否存在
+      parameters:
+        - name: id
+          in: query
+          description: 店鋪id
+          required: false
+          type: integer
+        - name: code
+          in: query
+          description: 店鋪code
+          required: false
+          type: string
+        - name: type
+          in: query
+          description: 1會員2店鋪
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /coupons/index:
+    get:
+      tags:
+        - coupons
+      summary: 我的優惠券
+      description: 我的優惠券
+      parameters:
+        - name: store_id
+          in: query
+          description: 店鋪id
+          required: false
+          type: integer
+        - name: money
+          in: query
+          description: 消費金額
+          required: false
+          type: string
+        - name: use_type
+          in: query
+          description: 1立即2下單3禮物
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: '成功，status:1可使用，0未到時間，2不屬於當前店鋪'
+      security:
+        - Bearer: []
+#  /receive/coupons:
+#    get:
+#      tags:
+#        - coupons
+#      summary: 優惠券領取
+#      description: 優惠券領取
+#      parameters:
+#        - name: id
+#          in: query
+#          description: 優惠券id
+#          required: true
+#          type: integer
+#      responses:
+#        '200':
+#          description: 成功
+#      security:
+#        - Bearer: []
+  /coupons/receive:
+    get:
+      tags:
+        - coupons
+      summary: 領取優惠券
+      description: 領取優惠券
+      parameters:
+        - name: id
+          in: query
+          description: 優惠券id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /coupons/reg/receive:
+    get:
+      tags:
+        - coupons
+      summary: 註冊后領取優惠券
+      description: 註冊后領取優惠券
+      parameters:
+        - name: id
+          in: query
+          description: 優惠券id
+          required: true
+          type: integer
+        - name: member_id
+          in: query
+          description: 會員id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /coupons/share/receive:
+    get:
+      tags:
+        - coupons
+      summary: 分享后領取優惠券
+      description: 分享后領取優惠券
+      parameters:
+        - name: id
+          in: query
+          description: 優惠券id
+          required: true
+          type: integer
+        - name: code
+          in: query
+          description: 綁定的邀請碼
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /coupons/release:
+    post:
+      consumes:
+        - multipart/form-data
+      tags:
+        - coupons
+      summary: 發行優惠券
+      description: 發行優惠券
+      operationId: coupons_release
+      parameters:
+        - name: title
+          in: formData
+          description: 標題
+          required: false
+          type: string
+        - name: description
+          in: formData
+          description: 描述
+          required: false
+          type: string
+        - name: store_id
+          in: formData
+          description: 店鋪id
+          required: false
+          type: integer
+        - name: activity_id
+          in: formData
+          description: 活動id
+          required: false
+          type: integer
+        - name: money
+          in: formData
+          description: 金額
+          required: false
+          type: integer
+        - name: discount
+          in: formData
+          description: 折數
+          required: false
+          type: integer
+        - name: use_type
+          in: formData
+          description: 類型，1蜂幣2券3禮物
+          enum:
+            - 1
+            - 2
+            - 3
+          default: 2
+          required: true
+          type: integer
+        - name: valid_time
+          in: formData
+          description: '有效時間,天數，1為1天'
+          required: true
+          type: integer
+        - name: conditions
+          in: formData
+          description: 滿減條件
+          required: true
+          type: integer
+        - name: type
+          in: formData
+          description: 類型，1通用2專用
+          enum:
+            - 1
+            - 2
+          default: 1
+          required: true
+          type: integer
+        - name: number
+          in: formData
+          description: 發行數量
+          required: true
+          type: integer
+        - name: limit_number
+          in: formData
+          description: 限制使用數量
+          required: true
+          type: integer
+        - name: limit_receive
+          in: formData
+          description: 每人限制領取數量
+          required: true
+          type: integer
+        - name: limit_receive_days
+          in: formData
+          description: 每人每天限制領取數量
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: '圖片上傳成功,并返回图片路徑'
+        '400':
+          description: 沒有圖片上傳
+  /credits/index:
+    get:
+      tags:
+        - credits
+      summary: 積分歷史記錄/收入
+      description: 積分歷史記錄/收入
+      parameters:
+        - name: type
+          in: query
+          description: 類型，歷史記錄不設置或為0，收入為1
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /credits/data:
+    get:
+      tags:
+        - credits
+      summary: 積分記錄（收入）數據統計
+      description: 積分記錄（收入）數據統計
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/list:
+    get:
+      tags:
+        - credits
+      summary: 消費記錄
+      description: 消費記錄
+      parameters:
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+        - name: type
+          in: query
+          description: 按時間不設置或0，按店鋪不為0
+          enum:
+            - 0
+            - 1
+          default: 0
+          required: true
+          type: integer
+        - name: date
+          in: query
+          description: '时间,2018-07'
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/store/details:
+    get:
+      tags:
+        - credits
+      summary: 消費記錄按店鋪詳情
+      description: 消費記錄按店鋪詳情
+      parameters:
+        - name: store_id
+          in: query
+          description: 店鋪id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/view:
+    get:
+      tags:
+        - credits
+      summary: 消費記錄按時間詳情
+      description: 消費記錄按時間詳情
+      parameters:
+        - name: id
+          in: query
+          description: 記錄id
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /order/rebate:
+    get:
+      tags:
+        - credits
+      summary: 待回贈詳細
+      description: 待回贈詳細
+      parameters:
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功，返回字段參考表rebate_orders
+      security:
+        - Bearer: []
+  /credits/usage:
+    get:
+      tags:
+        - credits
+      summary: 已使用積分使用情況
+      description: 已使用積分使用情況
+      parameters:
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 请求成功
+      security:
+        - Bearer: []
+  /store/create:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - other
+      summary: 商家入驻
+      description: 商家入驻
+      parameters:
+        - name: name
+          in: formData
+          description: 名稱
+          required: true
+          type: string
+        - name: phone
+          in: formData
+          description: 電話
+          required: true
+          type: string
+        - name: company_name
+          in: formData
+          description: 公司
+          required: true
+          type: string
+        - name: company_tax_no
+          in: formData
+          description: 統一編號
+          required: true
+          type: string
+        - name: type_name
+          in: formData
+          description: 營業類別
+          required: true
+          type: string
+        - name: city
+          in: formData
+          description: 城市
+          required: true
+          type: string
+        - name: address
+          in: formData
+          description: 详细地址
+          required: true
+          type: string
+        - name: other
+          in: formData
+          description: 其他
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/feedback:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - other
+      summary: 店鋪回饋
+      description: 店鋪回饋
+      parameters:
+        - name: store_id
+          in: formData
+          description: 店鋪id
+          required: true
+          type: integer
+        - name: content
+          in: formData
+          description: 內容
+          required: true
+          type: string
+        - name: description
+          in: formData
+          description: 詳情概況
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /cooperation:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - other
+      summary: 我要合作
+      description: 我要合作
+      parameters:
+        - name: username
+          in: formData
+          description: 姓名
+          required: true
+          type: string
+        - name: phone
+          in: formData
+          description: 電話
+          required: true
+          type: string
+        - name: company_name
+          in: formData
+          description: 公司抬頭
+          required: true
+          type: string
+        - name: company_tax_no
+          in: formData
+          description: 統一編號
+          required: true
+          type: string
+        - name: type_name
+          in: formData
+          description: 營業類別
+          required: true
+          type: string
+        - name: direction
+          in: formData
+          description: 合作方向
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /media/contact:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      tags:
+        - other
+      summary: 媒體聯繫
+      description: 媒體聯繫
+      parameters:
+        - name: company_name
+          in: formData
+          description: 媒體單位
+          required: true
+          type: string
+        - name: username
+          in: formData
+          description: 聯絡人
+          required: true
+          type: string
+        - name: phone
+          in: formData
+          description: 聯絡手機
+          required: true
+          type: string
+        - name: report_content
+          in: formData
+          description: 報道內容
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /store/region:
+    get:
+      tags:
+        - other
+      summary: 城市
+      description: 城市
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /notice:
+    get:
+      tags:
+        - index
+      summary: 通知列表
+      description: 通知列表
+      parameters:
+        - name: member_id
+          in: query
+          description: 會員id
+          required: false
+          type: integer
+        - name: type
+          in: query
+          description: '類型,1主題活動,2錢包更新，3系統更新'
+          required: false
+          type: integer
+        - name: per_page
+          in: query
+          description: 每頁條數
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /notice/view:
+    get:
+      tags:
+        - index
+      summary: '通知詳情,已讀未讀'
+      description: 通知詳情，已讀未讀
+      parameters:
+        - name: id
+          in: query
+          description: 通知id
+          required: true
+          type: integer
+        - name: member_id
+          in: query
+          description: 會員id
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /notice/total:
+    get:
+      tags:
+        - index
+      summary: 未讀通知數量
+      description: 未讀通知數量
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+  /getBotQA:
+    get:
+      tags:
+        - index
+      summary: 關鍵詞
+      description: 關鍵詞
+      responses:
+        '200':
+          description: 成功
+      security:
+        - Bearer: []
+definitions:
+  http_success:
+    description: 请求成功
+  http_unauthorized:
+    description: 没有登录或者登录的token过期
+  product_status:
+    description: The status of a product
+    type: string
+    default: available
+    enum:
+      - available
+      - discontinued
+  NotFound:
+    description: The specified resource was not found
+  Unauthorized:
+    description: 没有登录或者登录的token过期
+  UnprocessableEntity:
+    description: 提交的数据未通过验证
+  response_format:
+    properties:
+      success:
+        type: boolean
+        description: '请求的状态,true:成功 false:失败'
+        example: true
+      error_code:
+        type: integer
+        format: int32
+        description: '返回的错误码,0: 成功,大于0: 失败'
+        example: '0'
+      error_msg:
+        type: string
+        description: 错误信息，当非请求成功，error_msg将显示对应的错误信息
+        example: ''
+      data:
+        type: string
+        description: 请求成功返回的响应资料
+        example: '[]'
+tags:
+  - name: tools
+    description: 公共
+  - name: user
+    description: 會員
+  - name: index
+    description: 首頁
+  - name: store
+    description: 店鋪
+  - name: coupons
+    description: 優惠券
+  - name: collection
+    description: 收藏
+  - name: order
+    description: 下單
+  - name: credits
+    description: 我的積分
+  - name: other
+    description: 其他
+  - name: service
+    description: 客服
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header

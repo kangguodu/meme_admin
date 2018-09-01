@@ -1,0 +1,46 @@
+  /withdraw/history:
+    get:
+      summary: 提現歷史
+      description: 體現歷史記錄
+      tags:
+        - Withdraw
+      parameters:
+        - name: per_page
+          in: query
+          type: integer
+          description: 每頁條數
+        - name: page
+          in: query
+          type: integer
+          description: 頁數
+      responses:
+        200:
+          description: 返回數據
+        default:
+          description: token失效
+      security:
+        - Bearer: []
+  /withdraw/apply:
+    post:
+      summary: 申請提現
+      description: 申請提現
+      tags:
+        - Withdraw
+      parameters:
+        - name: amount
+          in: formData
+          type: number
+          required: true
+          description: 申請數額
+        - name: bank_card_id
+          in: formData
+          type: integer
+          required: true
+          description: 銀行賬戶id
+      responses:
+        200:
+          description: 返回列表詳情
+        default:
+          description: token無效
+      security:
+        - Bearer: []

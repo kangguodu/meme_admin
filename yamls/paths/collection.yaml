@@ -1,0 +1,37 @@
+/collection/add:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - collection
+    summary: 收藏/取消
+    description: 收藏/取消
+    parameters:
+      - name: store_id
+        in: formData
+        description: 店鋪id數組,json,[1,2]
+        required: true
+        type: string
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []
+
+/collection/list:
+  get:
+    tags:
+      - collection
+    summary: 收藏列表
+    description: 收藏列表
+    parameters:
+      - name: per_page
+        in: query
+        description: 每頁條數
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 成功
+    security:
+      - Bearer: []

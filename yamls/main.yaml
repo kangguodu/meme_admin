@@ -1,0 +1,13 @@
+swagger: '2.0'
+info:
+  title: memecoins App api
+  description: 'memecoins App api swagger文档'
+  termsOfService: ''
+  contact:
+    email: sales@techrare.com
+  version: 1.0.0
+
+
+host: 'office.techrare.com'
+basePath: /memecoinsapi/public/api
+$ref#common: "./common.yaml"

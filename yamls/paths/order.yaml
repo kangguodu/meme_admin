@@ -1,0 +1,144 @@
+
+/order/create:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - order
+    summary: 下单
+    description: 下单
+    parameters:
+      - name: store_id
+        in: formData
+        description: 店鋪id
+        required: true
+        type: integer
+      - name: amount
+        in: formData
+        description: 消費總金額
+        required: true
+        type: string
+      - name: cash
+        in: formData
+        description: 現金
+        required: true
+        type: string
+      - name: credits
+        in: formData
+        description: 積分抵現
+        required: true
+        type: string
+      - name: coupons_id
+        in: formData
+        description: 優惠券id
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/cancel:
+  get:
+    tags:
+      - order
+    summary: 取消訂單
+    description: 取消訂單
+    parameters:
+      - name: order_id
+        in: query
+        description: 訂單id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/comment/add:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - order
+    summary: 評論
+    description: 評論
+    parameters:
+      - name: order_id
+        in: formData
+        description: 訂單id
+        required: true
+        type: integer
+      - name: content
+        in: formData
+        description: 評論內容
+        required: false
+        type: string
+      - name: image
+        in: formData
+        description: 評論图片
+        required: false
+        type: string
+      - name: level
+        in: formData
+        description: 評分
+        enum: [1,2,3,4,5]
+        default: 1
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/refund:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - order
+    summary: 退货
+    description: 退货
+    parameters:
+      - name: order_id
+        in: formData
+        description: 订单id
+        required: true
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+
+/order/check:
+  get:
+    tags:
+      - order
+    summary: 掃碼后判斷店鋪，待處理訂單是否存在
+    description: 掃碼后判斷店鋪，待處理訂單是否存在
+    parameters:
+      - name: id
+        in: query
+        description: 店鋪id
+        required: false
+        type: integer
+      - name: code
+        in: query
+        description: 店鋪code
+        required: false
+        type: string
+      - name: type
+        in: query
+        description: 1會員2店鋪
+        required: false
+        type: integer
+    responses:
+      200:
+        description: 请求成功
+    security:
+      - Bearer: []
+

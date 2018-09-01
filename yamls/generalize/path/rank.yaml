@@ -1,0 +1,53 @@
+  /ranking/invite:
+    get:
+      summary: 邀請排行榜
+      description: 邀請排行榜
+      tags:
+        - Ranking
+      parameters:
+        - name: per_page
+          description: 每頁數量-默認10
+          type: integer
+          in: query
+        - name: page
+          description: 頁數-默認1
+          type: integer
+          in: query
+      responses:
+        '200':
+          description: 返回用戶數據
+      security:
+        - Bearer: []
+  /ranking/money:
+    get:
+      summary: 邀請獲得金錢排行榜
+      description: 邀請獲得金錢排行榜
+      tags:
+        - Ranking
+      parameters:
+        - name: per_page
+          description: 每頁數量-默認10
+          type: integer
+          in: query
+        - name: page
+          description: 頁數-默認1
+          type: integer
+          in: query
+
+      responses:
+        '200':
+          description: 返回用戶數據
+      security:
+        - Bearer: []
+
+  /ranking/mine:
+    get:
+      summary: 個人排行數據
+      description: 個人排行數據
+      tags:
+        - Ranking
+      responses:
+        '200':
+          description: 返回用戶數據
+      security:
+        - Bearer: []

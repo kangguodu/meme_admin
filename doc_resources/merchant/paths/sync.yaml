@@ -1,0 +1,63 @@
+/rebate/sync/orders:
+  get:
+    tags:
+      - sync
+    summary: 获取订单列表
+    description: 获取订单列表
+    parameters:
+      - name: date
+        in: query
+        description: '日期'
+        required: true
+        type: string
+    responses:
+      '200':
+        description: 获取订单列表
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+/rebate/sync/order:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - sync
+    summary: '更新返利信息'
+    description: '更新返利信息'
+    parameters:
+      - name: order_id
+        in: formData
+        description: '订单id'
+        required: true
+        type: string
+        default: 0
+      - name: cycle_status
+        in: formData
+        description: '返利状态'
+        required: true
+        type: string
+        default: 2
+      - name: cycle_days_remain
+        in: formData
+        description: '返利天数剩余'
+        required: true
+        type: string
+      - name: interest_ever
+        in: formData
+        description: '每天返利积分'
+        required: true
+        type: string
+      - name: interest_remain
+        in: formData
+        description: '返利剩余积分'
+        required: true
+        type: string
+      - name: current_rebate
+        in: formData
+        description: '当前返利积分'
+        required: true
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'

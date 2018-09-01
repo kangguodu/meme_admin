@@ -1,0 +1,89 @@
+/store/recharge/create_test:
+  get:
+    tags:
+      - recharge
+    summary: 充值創建訂單(測試)
+    description: 充值創建訂單(測試)
+    responses:
+      '200':
+        description: 消息列表
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/recharge/transferes:
+  get:
+    tags:
+      - recharge
+    summary: 儲值申請列表
+    description: 儲值申請列表
+    responses:
+      '200':
+        description: 儲值申請列表
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+/store/recharge/create_transfer:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - recharge
+    summary: 提交儲值申請
+    description: 提交儲值申請
+    parameters:
+      - name: transfer_date
+        in: formData
+        description: '轉賬日期'
+        required: false
+        type: string
+      - name: accounts_no
+        in: formData
+        description: '帳號末五位'
+        required: true
+        type: string
+      - name: amount
+        in: formData
+        description: '匯款金額'
+        required: true
+        type: string
+      - name: attachment
+        in: formData
+        description: '匯款憑證'
+        required: true
+        type: string
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []
+
+/store/recharge/create_transferby:
+  post:
+    consumes:
+      - application/x-www-form-urlencoded
+    tags:
+      - recharge
+    summary: 蜂幣儲值
+    description: 蜂幣儲值
+    parameters:
+      - name: amount
+        in: formData
+        description: 金額
+        required: true
+        type: string
+      - name: type
+        in: formData
+        description: 類型1蜂幣2回饋
+        required: true
+        type: integer
+    responses:
+      '200':
+        $ref: '#/definitions/http_success'
+      '401':
+        $ref: '#/definitions/http_unauthorized'
+    security:
+      - Bearer: []

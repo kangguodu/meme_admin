@@ -1,0 +1,154 @@
+StoreAmount:
+  properties:
+    return_credits:
+      description: 回贈積分額度
+      type: string
+      example: 10000
+    probability:
+      description: '單筆消費提發%數'
+      type: string
+      example: 10
+    feature_probability:
+      description: '單筆消費提發%數修改值'
+      type: integer
+      example: 10
+    feature_probability_time:
+      description: '單筆消費提發%數修改生效時間，0未變更'
+      type: integer
+      example: 0
+    fixed_probability:
+      description: '固定單筆消費提發%數'
+      type: string
+      example: 10
+    feature_fixed_probability:
+      description: '修改固定單筆消費提發%數'
+      type: string
+      example: 10
+    feature_fixed_probability_time:
+      description: '固定單筆消費提發%數生效時間，0未變更'
+      type: string
+      example: 0
+StoreInComeAmount:
+  properties:
+    business_income:
+      description: 营业收入
+      type: string
+      example: 10000
+    credits_income:
+      description: '积分收入'
+      type: string
+      example: 10
+    bank_count:
+      description: 银行卡数量
+      type: integer
+      example: 0
+    withdrawl_count:
+      description: 请求中的请款数量
+      type: integer
+      example: 0
+StoreAmountBills:
+  properties:
+    id:
+      description: 交易ID
+      type: integer
+    trans_type:
+      description: '交易類型(1 收入 2 支出)'
+      type: string
+    trans_category:
+      description: 分類
+      type: string
+    trans_category_name:
+      description: 分類名稱
+      type: string
+    trans_description:
+      description: 交易描述
+      type: string
+    trans_datetime:
+      description: 交易時間
+      type: integer
+    amount:
+      description: 金額
+      type: integer
+StoreAmountLists:
+  properties:
+    id:
+      description: 交易ID
+      type: integer
+    trans_type:
+      description: '交易類型(1 收入 2 支出)'
+      type: string
+    trans_category:
+      description: 分類
+      type: string
+    trans_category_name:
+      description: 分類名稱
+      type: string
+    trans_description:
+      description: 交易描述
+      type: string
+    trans_date:
+      description: 交易日期
+      type: integer
+    trans_datetime:
+      description: 交易時間
+      type: integer
+    amount:
+      description: 金額
+      type: integer
+    balance:
+      description: 異動前金額
+      type: integer
+    created_at:
+      description: 創建時間
+      type: string
+    created_by:
+      description: 創建人
+      type: string
+    created_name:
+      description: 創建人
+      type: string
+BankList:
+  properties:
+    id:
+      description: id
+      type: integer
+    bank_name:
+      description: '银行名称'
+      type: string
+    receiver_name:
+      description: 收款人姓名
+      type: string
+    bank_account:
+      description: 银行帐号
+      type: string
+    bank_phone:
+      description: 电话
+      type: string
+    created_at:
+      description: 添加时间
+      type: integer
+StoreBankAdd:
+  properties:
+    bank_name:
+      description: '银行名称'
+      type: string
+    receiver_name:
+      description: 收款人姓名
+      type: string
+    bank_account:
+      description: 银行帐号
+      type: string
+    bank_phone:
+      description: 电话
+      type: string
+AddWithDrawlData:
+  properties:
+    amount:
+      description: '金额'
+      type: string
+    bank_id:
+      description: 请款银行卡ID
+      type: string
+    type:
+      description: 類型，1蜜幣收入2回饋收入
+      type: integer
